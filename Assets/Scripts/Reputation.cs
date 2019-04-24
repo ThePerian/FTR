@@ -2,18 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum SkillType
+public enum NPCGroupType
 {
-    Acrobatics, Deception, SleightOfHand
+    Bandit, Stalker, Military
 }
 
-public class Skill
+public class Reputation
 {
-    RangeInt valueRange = new RangeInt(0, 6);
+    RangeInt valueRange = new RangeInt(-5, 11);
 
-    public SkillType name;
+    public NPCGroupType groupType;
     public int Value { get; private set; }
-    public StatType baseStat;
 
     public int Increase()
     {
@@ -27,9 +26,9 @@ public class Skill
         return Value;
     }
 
-    public Skill(int value, StatType stat)
+    public Reputation(int value, NPCGroupType group)
     {
         Value = Mathf.Clamp(value, valueRange.start, valueRange.end);
-        baseStat = stat;
+        groupType = group;
     }
 }
