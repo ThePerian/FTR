@@ -11,7 +11,7 @@ public class Reputation
 {
     RangeInt valueRange = new RangeInt(-5, 11);
 
-    public NPCGroupType groupType;
+    public NPCGroupType group;
     public int Value { get; private set; }
 
     public int Increase()
@@ -26,9 +26,9 @@ public class Reputation
         return Value;
     }
 
-    public Reputation(int value, NPCGroupType group)
+    public Reputation(int value, NPCGroupType groupType)
     {
         Value = Mathf.Clamp(value, valueRange.start, valueRange.end);
-        groupType = group;
+        group = groupType;
     }
 }

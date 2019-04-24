@@ -13,8 +13,8 @@ public abstract class Damageable : MonoBehaviour
     public int CurrentHealth { get; private set; }
     public int ArmorClass { get; private set; }
 
-    int _damageThreshold = 0;
-    Dictionary<DamageType, int> _damageResistance = new Dictionary<DamageType, int>();
+    protected int _damageThreshold = 0;
+    protected Dictionary<DamageType, int> _damageResistance = new Dictionary<DamageType, int>();
 
     public virtual int ChangeHealth(int amount, DamageType type)
     {

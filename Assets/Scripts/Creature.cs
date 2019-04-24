@@ -23,13 +23,13 @@ public struct SavingThrow
 
 public abstract class Creature : Damageable
 {
-    int _tempHealth;
-    int _actionPoints;
-    int _maxRadiation;
-    int _currentRadiation;
-    int _speed;
-    CreatureStat[] _stats = new CreatureStat[6];
-    SavingThrow[] _savingThrows = new SavingThrow[3];
-    List<InventoryItem> _inventory = new List<InventoryItem>();
-    List<CreatureCondition> _conditions = new List<CreatureCondition>();
+    protected int _tempHealth;
+    protected int _actionPoints;
+    protected int _maxRadiation;
+    protected int _currentRadiation;
+    protected int _speed;
+    protected CreatureStat[] _stats = new CreatureStat[6];
+    protected SavingThrow[] _savingThrows = new SavingThrow[3];
+    protected List<InventoryItem> _inventory = new List<InventoryItem>();
+    protected List<CreatureCondition> _conditions = new List<CreatureCondition>();
 }
