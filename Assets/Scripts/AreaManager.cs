@@ -7,9 +7,13 @@ public class AreaManager : MonoBehaviour
     public GameObject objectToSpawn;
     public Collider2D spawnArea;
     public int numeberOfPoints;
-    
+    public Canvas parentCanvas;
+
     void Start()
     {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
         float minSpawnDistance = objectToSpawn.GetComponent<CircleCollider2D>().radius * 2;
         Debug.Log(minSpawnDistance);
         List<Vector2> existingPoints = new List<Vector2>();
@@ -34,7 +38,7 @@ public class AreaManager : MonoBehaviour
             } while (!spawnArea.OverlapPoint(randomPosition) || isTooClose);
 
             existingPoints.Add(randomPosition);
-            Instantiate(objectToSpawn, (Vector3)randomPosition, Quaternion.identity);
+            Instantiate(objectToSpawn, (Vector3)randomPosition, Quaternion.identity, parentCanvas.transform);
         }
     }
     
