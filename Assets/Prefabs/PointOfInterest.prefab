@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 6815832330619371966}
   - component: {fileID: 6815832330619371965}
   - component: {fileID: 6815832330619371964}
+  - component: {fileID: 1939727216159603776}
   - component: {fileID: 6815832330619371963}
   m_Layer: 5
-  m_Name: Button
+  m_Name: PointOfInterest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -67,7 +68,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300136, guid: f8e34b54c407f0541bdccb78863a3b81, type: 3}
+  m_Sprite: {fileID: 21300162, guid: f8e34b54c407f0541bdccb78863a3b81, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -103,10 +104,10 @@ MonoBehaviour:
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
-    m_HighlightedSprite: {fileID: 21300138, guid: f8e34b54c407f0541bdccb78863a3b81,
+    m_HighlightedSprite: {fileID: 21300164, guid: f8e34b54c407f0541bdccb78863a3b81,
       type: 3}
     m_PressedSprite: {fileID: 21300158, guid: f8e34b54c407f0541bdccb78863a3b81, type: 3}
-    m_DisabledSprite: {fileID: 21300108, guid: f8e34b54c407f0541bdccb78863a3b81, type: 3}
+    m_DisabledSprite: {fileID: 21300248, guid: 05be377d94bfc8e48a2ba2f9c288affa, type: 3}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
@@ -119,6 +120,23 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &1939727216159603776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6815832330619371961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 667262a15a840b94ea289fc94bdd79c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unexplored: {fileID: 21300162, guid: f8e34b54c407f0541bdccb78863a3b81, type: 3}
+  explored: {fileID: 21300248, guid: 05be377d94bfc8e48a2ba2f9c288affa, type: 3}
+  highlighted: {fileID: 21300164, guid: f8e34b54c407f0541bdccb78863a3b81, type: 3}
+  clicked: {fileID: 21300158, guid: f8e34b54c407f0541bdccb78863a3b81, type: 3}
+  isExplored: 0
 --- !u!58 &6815832330619371963
 CircleCollider2D:
   m_ObjectHideFlags: 0

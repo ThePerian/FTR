@@ -3,7 +3,29 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Escape
+  - RostokOld
+  - DarkScape
+  - DarkValley
+  - JunkYard
+  - Agroprom
+  - AmberLakeOld
+  - ArmyStorage
+  - Bar
+  - Rostok
+  - BrainScorcher
+  - NuclearPlant
+  - Pripyat
+  - PripyatOutskirts
+  - EasternMarches
+  - DeadCity
+  - WesternMarches
+  - DeadMil
+  - EasternForest
+  - Village
+  - AmberProm
+  - Amber
   layers:
   - Default
   - TransparentFX
