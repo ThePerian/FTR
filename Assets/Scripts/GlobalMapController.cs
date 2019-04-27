@@ -1,21 +1,28 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Delaunay;
 
 public class GlobalMapController : MonoBehaviour
 {
-    public GameObject pointOfInterest;
+    public GameObject pointPrefab;
     public int numberOfPoints;
     public Collider2D spawnArea;
     public Canvas parentCanvas;
     public List<Collider2D> localAreas;
 
+    List<GameObject> existingPoints = new List<GameObject>();
+
     void Start()
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        float minDistance = pointOfInterest.GetComponent<CircleCollider2D>().radius * 2;
-        SpawnPOIs(pointOfInterest, numberOfPoints, spawnArea, minDistance, parentCanvas);
+
+        float minDistance = pointPrefab.GetComponent<CircleCollider2D>().radius * 2;
+        DelaunayTriangulator delaunay = new DelaunayTriangulator();
+        var points = delaunay.GeneratePoints(numberOfPoints, spawnArea, minDistance);
+        var triangulation = delaunay.BowyerWatson(points);
+        SpawnPOIs(pointPrefab, points, parentCanvas);
     }
     
     void Update()
@@ -23,34 +30,29 @@ public class GlobalMapController : MonoBehaviour
         
     }
 
-    public void SpawnPOIs(GameObject objectToSpawn, int numberOfPoints,
-        Collider2D spawnArea, float minDistance, Canvas parentCanvas)
+    public void SpawnPOIs(GameObject objectToSpawn, IEnumerable<Point> locations, Canvas parentCanvas)
     {
-        List<PointOfInterest> existingPoints = new List<PointOfInterest>();
-
-        for (int i = 0; i < numberOfPoints; i++)
+        foreach (var point in locations)
         {
-            Vector2 randomPosition;
-            bool isTooClose;
-
-            do
+            foreach (var triangle in point.AdjacentTriangles)
             {
-                randomPosition = new Vector2(
-                    Random.Range(spawnArea.bounds.min.x, spawnArea.bounds.max.x),
-                    Random.Range(spawnArea.bounds.min.y, spawnArea.bounds.max.y));
+                point.neighbourPoints.UnionWith(triangle.Vertices);
+            }
+            point.neighbourPoints.Remove(point);
 
-                isTooClose = false;
-                foreach (var point in existingPoints)
-                {
-                    if (Vector2.Distance(randomPosition, point.position) < minDistance)
-                        isTooClose = true;
-                }
-            } while (!spawnArea.OverlapPoint(randomPosition) || isTooClose);
+            List<Vector2> neighbours = new List<Vector2>();
+            foreach (var p in point.neighbourPoints)
+                neighbours.Add(p.position);
 
-            GameObject newPoint = 
-                Instantiate(objectToSpawn, randomPosition, Quaternion.identity, parentCanvas.transform);
+            GameObject newPoint = Instantiate(
+                objectToSpawn, 
+                point.position,
+                Quaternion.identity, 
+                parentCanvas.transform);
 
-            foreach(var area in localAreas)
+            newPoint.GetComponent<PointController>().neighbourPoints = neighbours;
+
+            foreach (var area in localAreas)
             {
                 if (newPoint.GetComponent<Collider2D>().Distance(area).isOverlapped)
                 {
@@ -59,11 +61,16 @@ public class GlobalMapController : MonoBehaviour
                 }
             }
 
-            existingPoints.Add(new PointOfInterest()
-            {
-                position = randomPosition,
-                tag = newPoint.tag
-            });
+            existingPoints.Add(newPoint);
+        }
+    }
+
+    void DrawLines(GameObject pointOfInterest)
+    {
+        foreach(Vector2 neighbour in 
+            pointOfInterest.GetComponent<PointController>().neighbourPoints)
+        {
+            LineRenderer line = pointOfInterest.AddComponent<LineRenderer>();
         }
     }
 }

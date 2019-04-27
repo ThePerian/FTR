@@ -10,6 +10,7 @@ public class PointController : MonoBehaviour
     public Sprite highlighted;
     public Sprite clicked;
     public bool isExplored = false;
+    public List<Vector2> neighbourPoints = new List<Vector2>();
 
     Button button;
 

@@ -1035,7 +1035,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f75f784c30b78e546bcb5e20dfcf6080, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointOfInterest: {fileID: 6815832330619371961, guid: 3d1929dd176ce1242a8224ba7f1fd920,
+  pointPrefab: {fileID: 6815832330619371961, guid: 3d1929dd176ce1242a8224ba7f1fd920,
     type: 3}
   numberOfPoints: 100
   spawnArea: {fileID: 1894433548}
