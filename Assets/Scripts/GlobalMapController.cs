@@ -23,7 +23,6 @@ public class GlobalMapController : MonoBehaviour
         var points = delaunay.GeneratePoints(numberOfPoints, spawnArea, minDistance);
         var triangulation = delaunay.BowyerWatson(points);
         SpawnPOIs(pointPrefab, points, parentCanvas);
-        DrawLines(existingPoints);
     }
     
     void Update()
@@ -63,16 +62,6 @@ public class GlobalMapController : MonoBehaviour
             }
 
             existingPoints.Add(newPoint);
-        }
-    }
-
-    void DrawLines(IEnumerable<GameObject> points)
-    {
-        foreach(GameObject point in points)
-        {
-            LineRenderer line = point.GetComponent<LineRenderer>();
-            line.SetPosition(0, point.transform.position);
-            line.SetPosition(1, point.GetComponent<PointController>().neighbourPoints[0]);
         }
     }
 }
