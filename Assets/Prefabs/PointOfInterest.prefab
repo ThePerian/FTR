@@ -140,6 +140,7 @@ MonoBehaviour:
   junctionPrefab: {fileID: 1105498636902158826, guid: b66361153db7129458a2a4e570fef10b,
     type: 3}
   neighbourPoints: []
+  maxJunctionDistance: 2
 --- !u!58 &6815832330619371963
 CircleCollider2D:
   m_ObjectHideFlags: 0

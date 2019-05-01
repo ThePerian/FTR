@@ -13,14 +13,13 @@ public class PointController : MonoBehaviour, IPointerEnterHandler, IPointerExit
     public bool isExplored = false;
     public GameObject junctionPrefab;
     public List<Vector2> neighbourPoints = new List<Vector2>();
+    public float maxJunctionDistance;
 
     Button button;
 
     void Start()
     {
         button = GetComponent<Button>();
-        //button.onClick.AddListener(ButtonClicked);
-        //button.GetComponent<Image>().sprite = unexplored;
     }
     
     void Update()
@@ -29,10 +28,12 @@ public class PointController : MonoBehaviour, IPointerEnterHandler, IPointerExit
     }
 
 
-    void DrawJunctionLines(IEnumerable<Vector2> points)
+    void DrawJunctionLines()
     {
-        foreach (Vector2 point in points)
+        foreach (Vector2 point in neighbourPoints)
         {
+            if (Vector2.Distance(gameObject.transform.position, point) > maxJunctionDistance)
+                continue;
             GameObject line = Instantiate(junctionPrefab);
             line.transform.parent = gameObject.transform;
             line.GetComponent<LineRenderer>().SetPosition(0, gameObject.transform.position);
@@ -55,7 +56,7 @@ public class PointController : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        DrawJunctionLines(neighbourPoints);
+        DrawJunctionLines();
     }
 
     public void OnPointerExit(PointerEventData eventData)
