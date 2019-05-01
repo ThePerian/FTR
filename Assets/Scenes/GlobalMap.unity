@@ -562,7 +562,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.0009520147, y: -7.74, z: -0.60058594}
+  m_LocalPosition: {x: -0.01, y: -7.74, z: -0.60058594}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1037,6 +1037,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pointPrefab: {fileID: 6815832330619371961, guid: 3d1929dd176ce1242a8224ba7f1fd920,
     type: 3}
+  playerPrefab: {fileID: 6482759240941756994, guid: 43737dda91032de489533d282f848758,
+    type: 3}
   numberOfPoints: 100
   spawnArea: {fileID: 1894433548}
   parentCanvas: {fileID: 516777373}
@@ -1063,6 +1065,7 @@ MonoBehaviour:
   - {fileID: 757022901}
   - {fileID: 1825152887}
   - {fileID: 698810343}
+  playerSpeed: 1
 --- !u!212 &1289040163
 SpriteRenderer:
   m_ObjectHideFlags: 0

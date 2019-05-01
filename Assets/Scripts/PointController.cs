@@ -13,31 +13,46 @@ public class PointController : MonoBehaviour, IPointerEnterHandler, IPointerExit
     public bool isExplored = false;
     public GameObject junctionPrefab;
     public List<Vector2> neighbourPoints = new List<Vector2>();
-    public float maxJunctionDistance;
+    public GameObject playerToken;
 
     Button button;
 
     void Start()
     {
         button = GetComponent<Button>();
+        button.onClick.AddListener(ButtonClicked);
     }
     
     void Update()
     {
-        
     }
-
 
     void DrawJunctionLines()
     {
         foreach (Vector2 point in neighbourPoints)
         {
-            if (Vector2.Distance(gameObject.transform.position, point) > maxJunctionDistance)
+            Vector2 playerPosition = playerToken.transform.position;
+            float travelDistance = Vector2.Distance(transform.position, point);
+
+            if (travelDistance > playerToken.GetComponent<Player>().maxTravelDistance)
                 continue;
+
             GameObject line = Instantiate(junctionPrefab);
             line.transform.parent = gameObject.transform;
-            line.GetComponent<LineRenderer>().SetPosition(0, gameObject.transform.position);
-            line.GetComponent<LineRenderer>().SetPosition(1, point);
+            LineRenderer lineRenderer = line.GetComponent<LineRenderer>();
+            lineRenderer.SetPosition(0, gameObject.transform.position);
+            lineRenderer.SetPosition(1, point);
+
+            if (((Vector2)transform.position != playerPosition) && (point != playerPosition))
+            {
+                lineRenderer.startColor = Color.grey;
+                lineRenderer.endColor = Color.grey;
+            }
+            else if (travelDistance > playerToken.GetComponent<Player>().currentTravelDistance)
+            {
+                lineRenderer.startColor = Color.red;
+                lineRenderer.endColor = Color.red;
+            }
         }
     }
 
@@ -51,7 +66,26 @@ public class PointController : MonoBehaviour, IPointerEnterHandler, IPointerExit
     
     void ButtonClicked()
     {
-        isExplored = true;
+        Vector2 playerPosition = playerToken.transform.position;
+        float travelDistance = Vector2.Distance(transform.position, playerPosition);
+        bool isNeighbour = false;
+
+        foreach (Vector2 point in neighbourPoints)
+        {
+            if (point == playerPosition)
+            {
+                isNeighbour = true;
+                break;
+            }
+        }
+
+        if ((travelDistance <= playerToken.GetComponent<Player>().currentTravelDistance)
+            && isNeighbour)
+        {
+            isExplored = true;
+            playerToken.GetComponent<Player>().destination = transform.position;
+            playerToken.GetComponent<Player>().currentTravelDistance -= travelDistance;
+        }
     }
 
     public void OnPointerEnter(PointerEventData eventData)
