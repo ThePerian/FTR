@@ -12,7 +12,7 @@ public class GlobalMapController : MonoBehaviour
     public Collider2D spawnArea;
     public Canvas parentCanvas;
     public List<Collider2D> localAreas;
-    public float playerSpeed = 1f;
+    public GameObject menuCanvas;
 
     List<GameObject> existingPoints = new List<GameObject>();
     GameObject playerToken;
@@ -33,12 +33,8 @@ public class GlobalMapController : MonoBehaviour
     }
     
     void Update()
-    {/*
-        if (Input.GetMouseButtonDown(0))
-        {
-            playerToken.GetComponent<PlayerController>().destination = 
-                Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        }*/
+    {
+        ManagePlayerInput();
     }
 
     public void SpawnPOIs(GameObject objectToSpawn, IEnumerable<Point> locations, Canvas parentCanvas)
@@ -88,5 +84,14 @@ public class GlobalMapController : MonoBehaviour
         }
 
         return south;
+    }
+
+    void ManagePlayerInput()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            menuCanvas.SetActive(!menuCanvas.activeInHierarchy);
+            Time.timeScale = Time.timeScale == 0 ? 1 : 0;
+        }
     }
 }
