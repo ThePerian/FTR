@@ -37,7 +37,7 @@ TagManager:
   - 
   - CameraConfiner
   - POI
-  - 
+  - HUD
   - 
   - 
   - 
@@ -65,4 +65,7 @@ TagManager:
     locked: 0
   - name: POI
     uniqueID: 4111700665
+    locked: 0
+  - name: HUD
+    uniqueID: 898407185
     locked: 0

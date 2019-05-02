@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8271902488170867978}
   - component: {fileID: 8220408750561794758}
   - component: {fileID: 903577369623416062}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: PlayerToken
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 6482759240941756994}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -66,8 +66,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 898407185
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300356, guid: f8e34b54c407f0541bdccb78863a3b81, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -93,5 +93,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destination: {x: 0, y: 0}
-  maxFatigue: 10
-  currentFatigue: 10
+  maxTravelDistance: 10
+  currentTravelDistance: 10
