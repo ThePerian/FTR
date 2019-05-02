@@ -90,7 +90,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -140,7 +140,7 @@ MonoBehaviour:
   junctionPrefab: {fileID: 1105498636902158826, guid: b66361153db7129458a2a4e570fef10b,
     type: 3}
   neighbourPoints: []
-  maxJunctionDistance: 2
+  playerToken: {fileID: 0}
 --- !u!58 &6815832330619371963
 CircleCollider2D:
   m_ObjectHideFlags: 0
