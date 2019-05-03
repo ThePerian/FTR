@@ -5,24 +5,41 @@ using UnityEngine.UI;
 
 public class HUDController : MonoBehaviour
 {
-    public GameObject charListButton;
-    public GameObject inventoryButton;
-    public GameObject menuButton;
+    public Button charListButton;
+    public Button inventoryButton;
+    public Button menuButton;
     public GameObject charListScene;
     public GameObject inventoryScene;
     public GameObject menuCanvas;
-    public GameObject player;
+    public Image healthBar;
+    public Image radiationBar;
+    public Image fatigueBar;
+
+    Player player;
+    float originalBarSize;
 
     void Start()
     {
-        charListButton.GetComponentInChildren<Button>().onClick.AddListener(CharListOnClick);
-        inventoryButton.GetComponentInChildren<Button>().onClick.AddListener(InventoryOnClick);
-        menuButton.GetComponentInChildren<Button>().onClick.AddListener(MenuOnClick);
+        charListButton.onClick.AddListener(CharListOnClick);
+        inventoryButton.onClick.AddListener(InventoryOnClick);
+        menuButton.onClick.AddListener(MenuOnClick);
+        player = Player.Instance;
+        originalBarSize = healthBar.rectTransform.rect.width;
     }
     
     void Update()
     {
-        
+        healthBar.rectTransform.SetSizeWithCurrentAnchors(
+            RectTransform.Axis.Horizontal,
+            originalBarSize * player.CurrentHealth / player.MaxHealth);
+
+        radiationBar.rectTransform.SetSizeWithCurrentAnchors(
+            RectTransform.Axis.Horizontal,
+            originalBarSize * player.currentRadiation / player.maxRadiation);
+
+        fatigueBar.rectTransform.SetSizeWithCurrentAnchors(
+            RectTransform.Axis.Horizontal,
+            originalBarSize * player.currentTravelDistance / player.maxTravelDistance);
     }
 
     void CharListOnClick()

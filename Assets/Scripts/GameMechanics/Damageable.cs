@@ -7,11 +7,11 @@ public enum DamageType
     Bludgeoning, Piercing, Slashing, Acid, Healing
 }
 
-public abstract class Damageable : MonoBehaviour
+public abstract class Damageable
 {
-    public int MaxHealth { get; private set; }
-    public int CurrentHealth { get; private set; }
-    public int ArmorClass { get; private set; }
+    public int MaxHealth { get; protected set; }
+    public int CurrentHealth { get; protected set; }
+    public int ArmorClass { get; protected set; }
 
     protected int _damageThreshold = 0;
     protected Dictionary<DamageType, int> _damageResistance = new Dictionary<DamageType, int>();

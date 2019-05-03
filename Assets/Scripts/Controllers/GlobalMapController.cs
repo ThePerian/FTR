@@ -17,12 +17,17 @@ public class GlobalMapController : MonoBehaviour
     List<GameObject> existingPoints = new List<GameObject>();
     GameObject playerToken;
 
+    private void Awake()
+    {
+        playerToken = Instantiate(playerPrefab);
+
+    }
+
     void Start()
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
-        playerToken = Instantiate(playerPrefab);
         float minDistance = pointPrefab.GetComponent<CircleCollider2D>().radius * 2;
         DelaunayTriangulator delaunay = new DelaunayTriangulator();
         var points = delaunay.GeneratePoints(numberOfPoints, spawnArea, minDistance);

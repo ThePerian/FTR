@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8271902488170867978}
   - component: {fileID: 8220408750561794758}
-  - component: {fileID: 903577369623416062}
+  - component: {fileID: 5750433379648257287}
   m_Layer: 10
   m_Name: PlayerToken
   m_TagString: Player
@@ -80,7 +80,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &903577369623416062
+--- !u!114 &5750433379648257287
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -89,9 +89,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6482759240941756994}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2ccab63e90eb7c46a0a1fdd38aff304, type: 3}
+  m_Script: {fileID: 11500000, guid: dc1fa848624173a40bdce421540cf035, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   destination: {x: 0, y: 0}
-  maxTravelDistance: 10
-  currentTravelDistance: 10

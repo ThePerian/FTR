@@ -23,10 +23,11 @@ public struct SavingThrow
 
 public abstract class Creature : Damageable
 {
+    public int maxRadiation;
+    public int currentRadiation;
+
     protected int _tempHealth;
     protected int _actionPoints;
-    protected int _maxRadiation;
-    protected int _currentRadiation;
     protected int _speed;
     protected CreatureStat[] _stats = new CreatureStat[6];
     protected SavingThrow[] _savingThrows = new SavingThrow[3];

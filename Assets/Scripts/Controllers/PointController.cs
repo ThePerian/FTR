@@ -15,12 +15,14 @@ public class PointController : MonoBehaviour, IPointerEnterHandler, IPointerExit
     public List<Vector2> neighbourPoints = new List<Vector2>();
     public GameObject playerToken;
 
+    Player player;
     Button button;
 
     void Start()
     {
         button = GetComponent<Button>();
         button.onClick.AddListener(ButtonClicked);
+        player = Player.Instance;
     }
     
     void Update()
@@ -34,7 +36,7 @@ public class PointController : MonoBehaviour, IPointerEnterHandler, IPointerExit
             Vector2 playerPosition = playerToken.transform.position;
             float travelDistance = Vector2.Distance(transform.position, point);
 
-            if (travelDistance > playerToken.GetComponent<Player>().maxTravelDistance)
+            if (travelDistance > player.maxTravelDistance)
                 continue;
 
             GameObject line = Instantiate(junctionPrefab);
@@ -48,7 +50,7 @@ public class PointController : MonoBehaviour, IPointerEnterHandler, IPointerExit
                 lineRenderer.startColor = Color.grey;
                 lineRenderer.endColor = Color.grey;
             }
-            else if (travelDistance > playerToken.GetComponent<Player>().currentTravelDistance)
+            else if (travelDistance > player.currentTravelDistance)
             {
                 lineRenderer.startColor = Color.red;
                 lineRenderer.endColor = Color.red;
@@ -79,12 +81,12 @@ public class PointController : MonoBehaviour, IPointerEnterHandler, IPointerExit
             }
         }
 
-        if ((travelDistance <= playerToken.GetComponent<Player>().currentTravelDistance)
+        if ((travelDistance <= player.currentTravelDistance)
             && isNeighbour)
         {
             isExplored = true;
-            playerToken.GetComponent<Player>().destination = transform.position;
-            playerToken.GetComponent<Player>().currentTravelDistance -= travelDistance;
+            playerToken.GetComponent<PlayerTokenController>().destination = transform.position;
+            player.currentTravelDistance -= travelDistance;
         }
     }
 
