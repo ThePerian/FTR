@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using Delaunay;
 
 public class GlobalMapController : MonoBehaviour
@@ -73,6 +74,9 @@ public class GlobalMapController : MonoBehaviour
                     break;
                 }
             }
+
+            //TODO: change events to trigger when player reaches destination instead
+            newPoint.GetComponent<Button>().onClick.AddListener(GetComponent<RandomEventController>().StartEvent);
 
             existingPoints.Add(newPoint);
         }
