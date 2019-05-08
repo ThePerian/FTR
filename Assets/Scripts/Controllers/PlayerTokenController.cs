@@ -5,14 +5,17 @@ using UnityEngine;
 public class PlayerTokenController : MonoBehaviour
 {
     public Vector2 destination;
+    public delegate void DestinationReached();
+    public event DestinationReached OnReachedDestination;
 
-    float tokenSpeed = 2;
-    Player player;
+    float _tokenSpeed = 2;
+    Player _player;
+    bool _isMoving = false;
 
     void Start()
     {
         destination = transform.position;
-        player = Player.Instance;
+        _player = Player.Instance;
     }
     
     void Update()
@@ -20,11 +23,19 @@ public class PlayerTokenController : MonoBehaviour
         if ((Vector2)transform.position != destination)
         {
             Vector2 target =
-                Vector2.MoveTowards(transform.position, destination, tokenSpeed * Time.deltaTime);
+                Vector2.MoveTowards(transform.position, destination, _tokenSpeed * Time.deltaTime);
             transform.position = target;
+            _isMoving = true;
+            Debug.Log("On our way");
+        }
+        else if (_isMoving)
+        {
+            Debug.Log("Arrived");
+            _isMoving = false;
+            OnReachedDestination();
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
-            player.currentTravelDistance = player.maxTravelDistance;
+        if (Input.GetKeyDown(KeyCode.F))
+            _player.currentTravelDistance = _player.maxTravelDistance;
     }
 }

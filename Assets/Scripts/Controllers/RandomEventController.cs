@@ -6,7 +6,6 @@ using VIDE_Data;
 
 public class RandomEventController : MonoBehaviour
 {
-    //public Canvas startCanvas;
     public Canvas eventCanvas;
     public GameObject eventWindow;
     public GameObject playerChoiceButton;
@@ -33,7 +32,6 @@ public class RandomEventController : MonoBehaviour
 
     public void StartEvent()
     {
-        //startCanvas.gameObject.SetActive(false);
         eventCanvas.gameObject.SetActive(true);
 
         VD.OnNodeChange += UpdateUI;
@@ -96,7 +94,6 @@ public class RandomEventController : MonoBehaviour
         VD.EndDialogue();
 
         eventCanvas.gameObject.SetActive(false);
-        //startCanvas.gameObject.SetActive(true);
         npcText.text = "";
         foreach (var button in eventCanvas.GetComponentsInChildren<Button>())
         {

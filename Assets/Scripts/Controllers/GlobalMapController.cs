@@ -35,12 +35,21 @@ public class GlobalMapController : MonoBehaviour
         var triangulation = delaunay.BowyerWatson(points);
         SpawnPOIs(pointPrefab, points, parentCanvas);
         Vector2 southernPoint = FindStartingPosition(points);
+
         playerToken.transform.SetPositionAndRotation(southernPoint, Quaternion.identity);
+        playerToken.GetComponent<PlayerTokenController>().OnReachedDestination
+            += GetComponent<RandomEventController>().StartEvent;
     }
     
     void Update()
     {
         ManagePlayerInput();
+    }
+
+    private void OnDisable()
+    {
+        playerToken.GetComponent<PlayerTokenController>().OnReachedDestination
+            -= GetComponent<RandomEventController>().StartEvent;
     }
 
     public void SpawnPOIs(GameObject objectToSpawn, IEnumerable<Point> locations, Canvas parentCanvas)
@@ -74,10 +83,7 @@ public class GlobalMapController : MonoBehaviour
                     break;
                 }
             }
-
-            //TODO: change events to trigger when player reaches destination instead
-            newPoint.GetComponent<Button>().onClick.AddListener(GetComponent<RandomEventController>().StartEvent);
-
+            
             existingPoints.Add(newPoint);
         }
     }
