@@ -26,11 +26,9 @@ public class PlayerTokenController : MonoBehaviour
                 Vector2.MoveTowards(transform.position, destination, _tokenSpeed * Time.deltaTime);
             transform.position = target;
             _isMoving = true;
-            Debug.Log("On our way");
         }
         else if (_isMoving)
         {
-            Debug.Log("Arrived");
             _isMoving = false;
             OnReachedDestination();
         }

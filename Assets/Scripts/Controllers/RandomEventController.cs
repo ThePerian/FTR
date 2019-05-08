@@ -77,9 +77,7 @@ public class RandomEventController : MonoBehaviour
                 GameObject button = Instantiate(playerChoiceButton);
                 button.transform.SetParent(parentTransform, true);
                 button.transform.localPosition = buttonPosition;
-                Debug.Log("Choice: " + data.comments[i]);
                 button.GetComponentInChildren<Text>().text = data.comments[i];
-                Debug.Log("Option: " + i);
                 int choice = i;
                 button.GetComponent<Button>().onClick.AddListener(
                     () => SelectChoiceAndGoToNext(choice));
