@@ -48,8 +48,8 @@ public class GlobalMapController : MonoBehaviour
 
     private void OnDisable()
     {
-        playerToken.GetComponent<PlayerTokenController>().OnReachedDestination
-            -= GetComponent<RandomEventController>().StartEvent;
+        //playerToken.GetComponent<PlayerTokenController>().OnReachedDestination
+        //    -= GetComponent<RandomEventController>().StartEvent;
     }
 
     public void SpawnPOIs(GameObject objectToSpawn, IEnumerable<Point> locations, Canvas parentCanvas)

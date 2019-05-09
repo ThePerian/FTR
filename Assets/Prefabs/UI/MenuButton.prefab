@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3947934641758210652}
   - component: {fileID: 7956561297103663576}
   m_Layer: 5
-  m_Name: Button
+  m_Name: MenuButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -151,10 +151,10 @@ RectTransform:
   m_Father: {fileID: 6033415938177180159}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.07058975, y: 0.22727273}
+  m_AnchorMax: {x: 0.93600005, y: 0.818}
+  m_AnchoredPosition: {x: -0.19000006, y: 0.26999998}
+  m_SizeDelta: {x: -0.059999466, y: -2.42}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6442636233772538493
 CanvasRenderer:
@@ -188,8 +188,8 @@ MonoBehaviour:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 18
     m_FontStyle: 0
-    m_BestFit: 0
-    m_MinSize: 0
+    m_BestFit: 1
+    m_MinSize: 10
     m_MaxSize: 40
     m_Alignment: 4
     m_AlignByGeometry: 0
