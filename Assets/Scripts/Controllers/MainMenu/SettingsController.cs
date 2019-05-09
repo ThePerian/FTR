@@ -1,30 +1,69 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class SettingsController : MonoBehaviour
 {
-    public Text gameSettingsHeader;
-    public Text videoSettingsHeader;
-    public Text audioSettingsHeader;
+    public Text gameHeader;
+    public Text videoHeader;
+    public Text audioHeader;
+    public GameObject gameArea;
+    public GameObject videoArea;
+    public GameObject audioArea;
+    public Dropdown resolutionSelector;
+
+    Resolution[] _resolutions;
+    List<string> _resolutionStrings;
+
+    private void Awake()
+    {
+        _resolutionStrings = new List<string>();
+        _resolutions = Screen.resolutions;
+        foreach (var r in _resolutions)
+        {
+            _resolutionStrings.Add(r.width + "x" + r.height);
+        }
+        resolutionSelector.ClearOptions();
+        resolutionSelector.AddOptions(_resolutionStrings);
+    }
 
     public void GameSettingsClick()
     {
-        gameSettingsHeader.text = "ИГРА";
-        videoSettingsHeader.text = "Видео";
-        audioSettingsHeader.text = "Аудио";
+        gameHeader.text = "ИГРА";
+        videoHeader.text = "Видео";
+        audioHeader.text = "Аудио";
+        videoArea.SetActive(false);
+        audioArea.SetActive(false);
+        gameArea.SetActive(true);
     }
 
     public void VideoSettingsClick()
     {
-        gameSettingsHeader.text = "Игра";
-        videoSettingsHeader.text = "ВИДЕО";
-        audioSettingsHeader.text = "Аудио";
+        gameHeader.text = "Игра";
+        videoHeader.text = "ВИДЕО";
+        audioHeader.text = "Аудио";
+        gameArea.SetActive(false);
+        audioArea.SetActive(false);
+        videoArea.SetActive(true);
     }
 
     public void AudioSettingsClick()
     {
-        gameSettingsHeader.text = "Игра";
-        videoSettingsHeader.text = "Видео";
-        audioSettingsHeader.text = "АУДИО";
+        gameHeader.text = "Игра";
+        videoHeader.text = "Видео";
+        audioHeader.text = "АУДИО";
+        gameArea.SetActive(false);
+        videoArea.SetActive(false);
+        audioArea.SetActive(true);
+    }
+
+    public void ToggleFullscreen(bool isFullscreen)
+    {
+        Screen.fullScreen = isFullscreen;
+    }
+
+    public void ChangeResolution(int i)
+    {
+        Screen.SetResolution(_resolutions[i].width, _resolutions[i].height, Screen.fullScreen);
     }
 }

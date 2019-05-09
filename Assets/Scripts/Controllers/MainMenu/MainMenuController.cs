@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuController : MonoBehaviour
 {
-    public GameObject quitConfirmationCanvas;
+    public GameObject quitConfirmationWindow;
     public Animator mainMenuButtonsAnimator;
     public Animator settingsWindowAnimator;
 
@@ -42,7 +42,7 @@ public class MainMenuController : MonoBehaviour
 
     public void QuitGame()
     {
-        quitConfirmationCanvas.SetActive(true);
+        quitConfirmationWindow.SetActive(true);
     }
 
     public void QuitConfirmed()
@@ -52,6 +52,6 @@ public class MainMenuController : MonoBehaviour
 
     public void QuitDenied()
     {
-        quitConfirmationCanvas.SetActive(false);
+        quitConfirmationWindow.SetActive(false);
     }
 }
