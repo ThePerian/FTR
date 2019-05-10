@@ -27,7 +27,7 @@ public class Player : Creature
         }
     }
 
-    protected Player()
+    protected Player() : base()
     {
         maxTravelDistance = 10;
         currentTravelDistance = maxTravelDistance;
