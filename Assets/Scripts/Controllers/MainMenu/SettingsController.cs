@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Audio;
 
 public class SettingsController : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class SettingsController : MonoBehaviour
     public GameObject videoArea;
     public GameObject audioArea;
     public Dropdown resolutionSelector;
+    public AudioMixer audioMixer;
 
     Resolution[] _resolutions;
     List<string> _resolutionStrings;
@@ -21,7 +23,7 @@ public class SettingsController : MonoBehaviour
         _resolutions = Screen.resolutions;
         foreach (var r in _resolutions)
         {
-            _resolutionStrings.Add(r.width + "x" + r.height);
+            _resolutionStrings.Add(r.ToString());
         }
         resolutionSelector.ClearOptions();
         resolutionSelector.AddOptions(_resolutionStrings);
@@ -65,5 +67,20 @@ public class SettingsController : MonoBehaviour
     public void ChangeResolution(int i)
     {
         Screen.SetResolution(_resolutions[i].width, _resolutions[i].height, Screen.fullScreen);
+    }
+
+    public void ChangeMasterVolume(float amount)
+    {
+        audioMixer.SetFloat("MasterVolume", amount);
+    }
+
+    public void ChangeSFXVolume(float amount)
+    {
+        audioMixer.SetFloat("SFXVolume", amount);
+    }
+
+    public void ChangeMusicVolume(float amount)
+    {
+        audioMixer.SetFloat("MusicVolume", amount);
     }
 }
