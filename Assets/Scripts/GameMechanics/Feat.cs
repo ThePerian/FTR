@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Feat : MonoBehaviour
+public class Feat
 {
     public string fullName;
     public string description;

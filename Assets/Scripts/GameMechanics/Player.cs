@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
@@ -7,11 +8,10 @@ public class Player : Creature
 {
     public float maxTravelDistance;
     public float currentTravelDistance;
+    public List<Feat> Feats { get; private set; }
 
     static Player instance;
-    List<Skill> skills = new List<Skill>();
-    List<Reputation> reputation = new List<Reputation>();
-    List<Feat> feats = new List<Feat>();
+    List<Reputation> reputation;
     int currentExp;
     int expToLevelUp;
     int level;
@@ -35,9 +35,30 @@ public class Player : Creature
         CurrentHealth = MaxHealth;
         maxRadiation = 10;
         currentRadiation = maxRadiation;
+        Feats = new List<Feat>();
+        reputation = new List<Reputation>();
     }
 
     void Update()
     {
+    }
+
+    public void AddFeat(Feat newFeat)
+    {
+        //do some inspection
+        Feats.Add(newFeat);
+    }
+    
+    public void RemoveFeat(Feat featToRemove)
+    {
+        //do some inspection
+        try
+        {
+            Feats.Remove(featToRemove);
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e.Message);
+        }
     }
 }
