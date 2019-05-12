@@ -2,9 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public enum SkillType
 {
-    Acrobatics, Deception, SleightOfHand
+    Athletics, FistFight, MeleeWeapons,
+    Acrobatics, Stealth, SleightOfHand,
+    Repair, Survival, ZoneKnowledge, Science, Medicine, ExoticWeapons,
+    Persuasion, Deception, Intimidation, Performance,
+    Looting, Insight, Firearms
 }
 
 public class Skill

@@ -34,7 +34,7 @@ public class StatSetup : MonoBehaviour
     public Button plusReaction;
 
     Player player;
-    int pointsLeft = 7;
+    int pointsLeft = 0;
     Dictionary<StatType, Button[]> allButtons;
 
     const int MIN_START_VALUE = 7;

@@ -13,7 +13,7 @@ public class CreatureStat
 
     public StatType type;
     public int Value { get; private set; }
-    public int Mod { get { return (Value - 10) / 2; } }
+    public int Mod { get{ return Mathf.FloorToInt((Value - 10f) / 2f); } }
 
     public int ChangeValue(int amount)
     {

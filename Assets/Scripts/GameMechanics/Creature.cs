@@ -7,7 +7,7 @@ public enum SavingThrowType
     Fortitude, Will, Reflex
 }
 
-public struct SavingThrow
+public class SavingThrow
 {
     public SavingThrowType type;
     public int value;
@@ -20,6 +20,7 @@ public abstract class Creature : Damageable
     public int currentRadiation;
     public Dictionary<StatType, CreatureStat> Stats { get; private set; }
     public Dictionary<SavingThrowType, SavingThrow> SavingThrows { get; private set; }
+    public Dictionary<SkillType, Skill> Skills { get; private set; }
 
     protected int _tempHealth;
     protected int _actionPoints;
@@ -29,6 +30,7 @@ public abstract class Creature : Damageable
 
     const int BASE_STAT_VALUE = 11;
     const int BASE_SAVE_VALUE = 0;
+    const int BASE_SKILL_VALUE = 0;
 
     public Creature() : base()
     {
@@ -73,6 +75,29 @@ public abstract class Creature : Damageable
                 }
             }
         };
+
+        Skills = new Dictionary<SkillType, Skill>
+        {
+            { SkillType.Acrobatics, new Skill(BASE_SKILL_VALUE, StatType.Agility)},
+            { SkillType.Athletics, new Skill(BASE_SKILL_VALUE, StatType.Toughness)},
+            { SkillType.Deception, new Skill(BASE_SKILL_VALUE, StatType.Social)},
+            { SkillType.ExoticWeapons, new Skill(BASE_SKILL_VALUE, StatType.Knowledge)},
+            { SkillType.Firearms, new Skill(BASE_SKILL_VALUE, StatType.Lookout)},
+            { SkillType.FistFight, new Skill(BASE_SKILL_VALUE, StatType.Toughness)},
+            { SkillType.Insight, new Skill(BASE_SKILL_VALUE, StatType.Lookout)},
+            { SkillType.Intimidation, new Skill(BASE_SKILL_VALUE, StatType.Social)},
+            { SkillType.Looting, new Skill(BASE_SKILL_VALUE, StatType.Lookout)},
+            { SkillType.Medicine, new Skill(BASE_SKILL_VALUE, StatType.Knowledge)},
+            { SkillType.MeleeWeapons, new Skill(BASE_SKILL_VALUE, StatType.Toughness)},
+            { SkillType.Performance, new Skill(BASE_SKILL_VALUE, StatType.Social)},
+            { SkillType.Persuasion, new Skill(BASE_SKILL_VALUE, StatType.Social)},
+            { SkillType.Repair, new Skill(BASE_SKILL_VALUE, StatType.Knowledge)},
+            { SkillType.Science, new Skill(BASE_SKILL_VALUE, StatType.Knowledge)},
+            { SkillType.SleightOfHand, new Skill(BASE_SKILL_VALUE, StatType.Agility)},
+            { SkillType.Stealth, new Skill(BASE_SKILL_VALUE, StatType.Agility)},
+            { SkillType.Survival, new Skill(BASE_SKILL_VALUE, StatType.Knowledge)},
+            { SkillType.ZoneKnowledge, new Skill(BASE_SKILL_VALUE, StatType.Knowledge)},
+        };
     }
 
     public int ChangeStatValue(StatType stat, int amount)
@@ -80,5 +105,15 @@ public abstract class Creature : Damageable
         Stats[stat].ChangeValue(amount);
 
         return Stats[stat].Value;
+    }
+
+    public int ChangeSkillValue(SkillType skill, int amount)
+    {
+        if (amount > 0)
+            Skills[skill].Increase();
+        else if (amount < 0)
+            Skills[skill].Decrease();
+
+        return Skills[skill].Value;
     }
 }
