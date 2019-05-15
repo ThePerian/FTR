@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,21 +17,29 @@ public class SavingThrow
 
 public abstract class Creature : Damageable
 {
+    const int BASE_STAT_VALUE = 11;
+    const int BASE_SAVE_VALUE = 0;
+    const int BASE_SKILL_VALUE = 0;
+    const float BASE_WEIGHT = 20;
+    const float WEIGHT_MULTIPLIER = 5;
+
     public int maxRadiation;
     public int currentRadiation;
-    public Dictionary<StatType, CreatureStat> Stats { get; private set; }
-    public Dictionary<SavingThrowType, SavingThrow> SavingThrows { get; private set; }
-    public Dictionary<SkillType, Skill> Skills { get; private set; }
+    public Dictionary<StatType, CreatureStat> Stats { get; protected set; }
+    public Dictionary<SavingThrowType, SavingThrow> SavingThrows { get; protected set; }
+    public Dictionary<SkillType, Skill> Skills { get; protected set; }
+    public List<InventoryItem> Inventory { get; protected set; }
+    public List<CreatureCondition> Conditions { get; protected set; }
+    public float MaxWeight
+    {
+        get { return BASE_WEIGHT + Stats[StatType.Toughness].Mod * WEIGHT_MULTIPLIER; }
+    }
+    public float CurrentWeight { get; protected set; }
+    public int maxItemSlots = 20;
 
     protected int _tempHealth;
     protected int _actionPoints;
     protected int _speed;
-    protected List<InventoryItem> _inventory = new List<InventoryItem>();
-    protected List<CreatureCondition> _conditions = new List<CreatureCondition>();
-
-    const int BASE_STAT_VALUE = 11;
-    const int BASE_SAVE_VALUE = 0;
-    const int BASE_SKILL_VALUE = 0;
 
     public Creature() : base()
     {
@@ -98,6 +107,9 @@ public abstract class Creature : Damageable
             { SkillType.Survival, new Skill(BASE_SKILL_VALUE, StatType.Knowledge)},
             { SkillType.ZoneKnowledge, new Skill(BASE_SKILL_VALUE, StatType.Knowledge)},
         };
+
+        Inventory = new List<InventoryItem>();
+        Conditions = new List<CreatureCondition>();
     }
 
     public int ChangeStatValue(StatType stat, int amount)
@@ -115,5 +127,34 @@ public abstract class Creature : Damageable
             Skills[skill].Decrease();
 
         return Skills[skill].Value;
+    }
+
+    public bool AddItemToInventory(InventoryItem item)
+    {
+        if ((item.weight + CurrentWeight <= MaxWeight) && (Inventory.Count < maxItemSlots))
+        {
+            Inventory.Add(item);
+            CurrentWeight += item.weight;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public bool RemoveItemFromInventory(InventoryItem item)
+    {
+        try
+        {
+            Inventory.Remove(item);
+            CurrentWeight -= item.weight;
+            return true;
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e.Message);
+            return false;
+        }
     }
 }

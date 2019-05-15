@@ -30,7 +30,7 @@ public class FeatSetup : MonoBehaviour
             new Feat(){fullName = "feat3", description = "desc3"}
         };
 
-        UpdateScreen();
+        ResetScreen();
     }
 
     public void ShowDetails(Feat feat, bool buying)
@@ -57,10 +57,10 @@ public class FeatSetup : MonoBehaviour
             availibleFeats.Remove(selectedFeat);
             pointsLeft--;
         }
-        UpdateScreen();
+        ResetScreen();
     }
 
-    void UpdateScreen()
+    void ResetScreen()
     {
         foreach (var child in availibleFeatsArea.GetComponentsInChildren<Button>())
             Destroy(child.gameObject);

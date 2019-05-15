@@ -9,6 +9,7 @@ public class Player : Creature
     public float maxTravelDistance;
     public float currentTravelDistance;
     public List<Feat> Feats { get; private set; }
+    public int money;
 
     static Player instance;
     List<Reputation> reputation;
@@ -37,6 +38,7 @@ public class Player : Creature
         currentRadiation = maxRadiation;
         Feats = new List<Feat>();
         reputation = new List<Reputation>();
+        money = 20000;
     }
 
     void Update()

@@ -2,11 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InventoryItem : MonoBehaviour
+public class InventoryItem
 {
-    float _weight;
-    float _volume;
-    string _name;
-    string _description;
-    int _price;
+    public float weight;
+    public float volume;
+    public string fullName;
+    public string description;
+    public int price;
+    public Sprite icon;
+
+    public InventoryItem(string itemName, float itemWeight, int itemPrice)
+    {
+        fullName = itemName;
+        weight = itemWeight;
+        price = itemPrice;
+    }
+
+    public InventoryItem() { }
 }
