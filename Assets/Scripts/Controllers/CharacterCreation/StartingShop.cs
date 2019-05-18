@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ItemShop : MonoBehaviour
+public class StartingShop : MonoBehaviour
 {
     public GameObject itemButtonPrefab;
     public Image itemIcon;

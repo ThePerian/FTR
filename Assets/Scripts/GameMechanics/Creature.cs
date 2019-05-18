@@ -5,7 +5,7 @@ using UnityEngine;
 
 public enum SavingThrowType
 {
-    Fortitude, Will, Reflex
+    Fortitude, Will, Reflex, Vigilance
 }
 
 public class SavingThrow
@@ -18,13 +18,19 @@ public class SavingThrow
 public abstract class Creature : Damageable
 {
     const int BASE_STAT_VALUE = 11;
-    const int BASE_SAVE_VALUE = 0;
     const int BASE_SKILL_VALUE = 0;
     const float BASE_WEIGHT = 20;
     const float WEIGHT_MULTIPLIER = 5;
-
-    public int maxRadiation;
-    public int currentRadiation;
+    const int BASE_ARMOR_CLASS = 10;
+    const int BASE_HEALTH = 30;
+    const int BASE_RADIATION = 30;
+    const int HEALTH_MULTIPLIER = 5;
+    const int RADIATION_MULTIPLIER = 5;
+    const int BASE_ACTION_POINTS = 6;
+    const int STARTING_ITEM_SLOTS = 20;
+    const int BASE_SPEED = 12;
+    const int SPEED_MULTIPLIER = 2;
+    
     public Dictionary<StatType, CreatureStat> Stats { get; protected set; }
     public Dictionary<SavingThrowType, SavingThrow> SavingThrows { get; protected set; }
     public Dictionary<SkillType, Skill> Skills { get; protected set; }
@@ -35,11 +41,25 @@ public abstract class Creature : Damageable
         get { return BASE_WEIGHT + Stats[StatType.Toughness].Mod * WEIGHT_MULTIPLIER; }
     }
     public float CurrentWeight { get; protected set; }
-    public int maxItemSlots = 20;
+    public int maxItemSlots = STARTING_ITEM_SLOTS;
+    public new int ArmorClass { get { return BASE_ARMOR_CLASS + Stats[StatType.Reaction].Mod; } }
+    public new int MaxHealth
+    {
+        get { return BASE_HEALTH + Stats[StatType.Endurance].Mod * HEALTH_MULTIPLIER; }
+    }
+    public int MaxRadiation
+    {
+        get { return BASE_RADIATION + Stats[StatType.Endurance].Mod * RADIATION_MULTIPLIER; }
+    }
+    public int CurrentRadiation { get; protected set; }
+    public int MaxActionPoints { get { return BASE_ACTION_POINTS + Stats[StatType.Agility].Mod; } }
+    public int CurrentActionPoints { get; protected set; }
+    public int MoveSpeed { get { return BASE_SPEED + Stats[StatType.Agility].Mod * SPEED_MULTIPLIER; } }
+    public int DistanceMoved { get; protected set; }
+    public new int NaturalResistance { get { return Stats[StatType.Endurance].Mod; } }
+    public int InitiativeMod { get { return Stats[StatType.Reaction].Mod; } }
 
     protected int _tempHealth;
-    protected int _actionPoints;
-    protected int _speed;
 
     public Creature() : base()
     {
@@ -60,9 +80,9 @@ public abstract class Creature : Damageable
                 SavingThrowType.Fortitude,
                 new SavingThrow
                 {
-                    baseStat = StatType.Toughness,
+                    baseStat = StatType.Endurance,
                     type = SavingThrowType.Fortitude,
-                    value = BASE_SAVE_VALUE
+                    value = Stats[StatType.Endurance].Mod
                 }
             },
             {
@@ -71,7 +91,7 @@ public abstract class Creature : Damageable
                 {
                     baseStat = StatType.Reaction,
                     type = SavingThrowType.Reflex,
-                    value = BASE_SAVE_VALUE
+                    value = Stats[StatType.Reaction].Mod
                 }
             },
             {
@@ -80,7 +100,16 @@ public abstract class Creature : Damageable
                 {
                     baseStat = StatType.Social,
                     type = SavingThrowType.Will,
-                    value = BASE_SAVE_VALUE
+                    value = Stats[StatType.Social].Mod
+                }
+            },
+            {
+                SavingThrowType.Vigilance,
+                new SavingThrow
+                {
+                    baseStat = StatType.Lookout,
+                    type = SavingThrowType.Vigilance,
+                    value = Stats[StatType.Lookout].Mod
                 }
             }
         };
@@ -115,8 +144,16 @@ public abstract class Creature : Damageable
     public int ChangeStatValue(StatType stat, int amount)
     {
         Stats[stat].ChangeValue(amount);
+        UpdateSavingThrowByStat(stat);
 
         return Stats[stat].Value;
+    }
+
+    protected void UpdateSavingThrowByStat(StatType stat)
+    {
+        foreach (var save in SavingThrows)
+            if (save.Value.baseStat == stat)
+                save.Value.value = Stats[stat].Mod;
     }
 
     public int ChangeSkillValue(SkillType skill, int amount)

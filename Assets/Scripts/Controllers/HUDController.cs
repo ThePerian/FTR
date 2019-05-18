@@ -35,7 +35,7 @@ public class HUDController : MonoBehaviour
 
         radiationBar.rectTransform.SetSizeWithCurrentAnchors(
             RectTransform.Axis.Horizontal,
-            originalBarSize * player.currentRadiation / player.maxRadiation);
+            originalBarSize * player.CurrentRadiation / player.MaxRadiation);
 
         fatigueBar.rectTransform.SetSizeWithCurrentAnchors(
             RectTransform.Axis.Horizontal,
