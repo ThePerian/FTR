@@ -11,9 +11,11 @@ public class PanelNavigation : MonoBehaviour
     public Button rightPanelButton;
     [Header("Panels")]
     public GameObject[] panels;
+    public GameObject tooltipPanel;
 
     int currentPanelIndex;
     Player player;
+    Vector2 tooltipOffset;
 
     private void Awake()
     {
@@ -23,12 +25,12 @@ public class PanelNavigation : MonoBehaviour
         for (int i = 1; i < panels.Length; i++)
             panels[i].GetComponent<Animator>().SetInteger("Position", 1);
         player = Player.Instance;
+        tooltipOffset = new Vector2(2, 2);
     }
     
     void Update()
     {
-        leftPanelButton.interactable = (currentPanelIndex == 0) ? false : true;
-        rightPanelButton.interactable = (currentPanelIndex == panels.Length - 1) ? false : true;
+        tooltipPanel.transform.position = Input.mousePosition + (Vector3)tooltipOffset;
     }
 
     public void MoveLeft()
@@ -36,6 +38,7 @@ public class PanelNavigation : MonoBehaviour
         panels[currentPanelIndex].GetComponent<Animator>().SetInteger("Position", 1);
         currentPanelIndex--;
         panels[currentPanelIndex].GetComponent<Animator>().SetInteger("Position", 0);
+        UpdateNavigationButtons();
     }
 
     public void MoveRight()
@@ -43,6 +46,13 @@ public class PanelNavigation : MonoBehaviour
         panels[currentPanelIndex].GetComponent<Animator>().SetInteger("Position", -1);
         currentPanelIndex++;
         panels[currentPanelIndex].GetComponent<Animator>().SetInteger("Position", 0);
+        UpdateNavigationButtons();
+    }
+
+    void UpdateNavigationButtons()
+    {
+        leftPanelButton.interactable = (currentPanelIndex == 0) ? false : true;
+        rightPanelButton.interactable = (currentPanelIndex == panels.Length - 1) ? false : true;
     }
 
     public void BeginGame()
