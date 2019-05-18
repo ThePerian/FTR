@@ -36,7 +36,6 @@ public class HUDController : MonoBehaviour
             originalBarSize * player.currentTravelDistance / player.maxTravelDistance);
 
         ManagePlayerInput();
-        Debug.Log(Time.timeScale);
     }
 
     public void ToggleCharacterList()
