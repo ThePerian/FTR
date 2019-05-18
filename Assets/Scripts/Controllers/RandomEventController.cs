@@ -6,8 +6,8 @@ using VIDE_Data;
 
 public class RandomEventController : MonoBehaviour
 {
-    public Canvas eventCanvas;
-    public GameObject eventWindow;
+    public GameObject eventPanel;
+    public GameObject playerChoiceArea;
     public GameObject playerChoiceButton;
     public Text npcText;
     public KeyCode continueButton;
@@ -32,7 +32,7 @@ public class RandomEventController : MonoBehaviour
 
     public void StartEvent()
     {
-        eventCanvas.gameObject.SetActive(true);
+        eventPanel.SetActive(true);
 
         VD.OnNodeChange += UpdateUI;
         VD.OnEnd += EndDialogue;
@@ -51,7 +51,7 @@ public class RandomEventController : MonoBehaviour
     {
         if (!data.isPlayer)
         {
-            foreach (var button in eventCanvas.GetComponentsInChildren<Button>())
+            foreach (var button in playerChoiceArea.GetComponentsInChildren<Button>())
             {
                 Destroy(button.gameObject);
             }
@@ -62,21 +62,8 @@ public class RandomEventController : MonoBehaviour
         {
             for (int i = 0; i < data.comments.Length; i++)
             {
-                // get position of each button for player's choice
-                // buttons are set in the middle of the canvas
-                // in a vertical row with gaps between them
-                RectTransform parentTransform = eventWindow.GetComponent<RectTransform>();
-                float x = parentTransform.rect.center.x;
-                float gap = ((parentTransform.rect.height / 2f)
-                    - (playerChoiceButton.GetComponent<RectTransform>().rect.height * data.comments.Length))
-                    / (data.comments.Length + 1);
-                float y = parentTransform.rect.center.y
-                    - (playerChoiceButton.GetComponent<RectTransform>().rect.height * i)
-                    - (gap * (i + 1));
-                Vector2 buttonPosition = new Vector2(x, y);
                 GameObject button = Instantiate(playerChoiceButton);
-                button.transform.SetParent(parentTransform, true);
-                button.transform.localPosition = buttonPosition;
+                button.transform.SetParent(playerChoiceArea.GetComponent<RectTransform>(), true);
                 button.GetComponentInChildren<Text>().text = data.comments[i];
                 int choice = i;
                 button.GetComponent<Button>().onClick.AddListener(
@@ -91,9 +78,9 @@ public class RandomEventController : MonoBehaviour
         VD.OnEnd -= EndDialogue;
         VD.EndDialogue();
 
-        eventCanvas.gameObject.SetActive(false);
+        eventPanel.gameObject.SetActive(false);
         npcText.text = "";
-        foreach (var button in eventCanvas.GetComponentsInChildren<Button>())
+        foreach (var button in playerChoiceArea.GetComponentsInChildren<Button>())
         {
             Destroy(button.gameObject);
         }
