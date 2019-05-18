@@ -36,35 +36,55 @@ public class HUDController : MonoBehaviour
             originalBarSize * player.currentTravelDistance / player.maxTravelDistance);
 
         ManagePlayerInput();
+        Debug.Log(Time.timeScale);
     }
 
-    public void ShowCharacterList()
+    public void ToggleCharacterList()
     {
-        characterPanel.SetActive(true);
-        Time.timeScale = 0;
+        //we don't need both panels active
+        if (inventoryPanel.activeInHierarchy)
+            inventoryPanel.SetActive(false);
+        //stop time only if it wasn't stopped by other panel earlier
+        else if (!menuPanel.activeInHierarchy)
+            Time.timeScale = Time.timeScale == 0 ? 1 : 0;
+        //using one button to switch inventory screen on and off
+        characterPanel.SetActive(!characterPanel.activeInHierarchy);
     }
 
-    public void ShowInventory()
+    public void ToggleInventory()
     {
+        //we don't need both panels active
+        if (characterPanel.activeInHierarchy)
+            characterPanel.SetActive(false);
+        //stop time only if it wasn't stopped by other panel earlier
+        else if (!menuPanel.activeInHierarchy)
+            Time.timeScale = Time.timeScale == 0 ? 1 : 0;
         //using one button to switch inventory screen on and off
         inventoryPanel.SetActive(!inventoryPanel.activeInHierarchy);
-        Time.timeScale = Time.timeScale == 0 ? 1 : 0;
     }
 
-    public void ShowInGameMenu()
+    public void ToggleInGameMenu()
     {
-        menuPanel.SetActive(true);
-        Time.timeScale = 0;
+        //button can be pressed both when in menu and when in game
+        //so we need to change it's behaviour accordingly
+        menuPanel.SetActive(!menuPanel.activeInHierarchy);
+        if (!characterPanel.activeInHierarchy && !inventoryPanel.activeInHierarchy)
+            Time.timeScale = Time.timeScale == 0 ? 1 : 0;
     }
 
     void ManagePlayerInput()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            //Esc can be pressed both when in menu and when in game
-            //so we need to change it's behaviour accordingly
-            menuPanel.SetActive(!menuPanel.activeInHierarchy);
-            Time.timeScale = Time.timeScale == 0 ? 1 : 0;
+            ToggleInGameMenu();
+        }
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            ToggleInventory();
+        }
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            ToggleCharacterList();
         }
     }
 }

@@ -4,12 +4,6 @@ using UnityEngine.SceneManagement;
 
 public class InGameMenuController : MonoBehaviour
 {
-    public void BackToGame()
-    {
-        gameObject.SetActive(false);
-        Time.timeScale = 1;
-    }
-
     public void ShowSettings()
     {
 
