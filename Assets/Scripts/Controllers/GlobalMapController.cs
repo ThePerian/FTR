@@ -13,7 +13,6 @@ public class GlobalMapController : MonoBehaviour
     public Collider2D spawnArea;
     public Canvas parentCanvas;
     public List<Collider2D> localAreas;
-    public GameObject menuCanvas;
 
     List<GameObject> existingPoints = new List<GameObject>();
     GameObject playerToken;
@@ -43,7 +42,6 @@ public class GlobalMapController : MonoBehaviour
     
     void Update()
     {
-        ManagePlayerInput();
     }
 
     private void OnDisable()
@@ -99,14 +97,5 @@ public class GlobalMapController : MonoBehaviour
         }
 
         return south;
-    }
-
-    void ManagePlayerInput()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            menuCanvas.SetActive(!menuCanvas.activeInHierarchy);
-            Time.timeScale = Time.timeScale == 0 ? 1 : 0;
-        }
     }
 }

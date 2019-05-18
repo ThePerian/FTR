@@ -5,24 +5,16 @@ using UnityEngine.UI;
 
 public class HUDController : MonoBehaviour
 {
-    public Button charListButton;
-    public Button inventoryButton;
-    public Button menuButton;
-    public GameObject charListScene;
-    public GameObject inventoryScene;
-    public GameObject menuCanvas;
     public Image healthBar;
     public Image radiationBar;
     public Image fatigueBar;
+    public GameObject menuPanel;
 
     Player player;
     float originalBarSize;
 
     void Start()
     {
-        charListButton.onClick.AddListener(CharListOnClick);
-        inventoryButton.onClick.AddListener(InventoryOnClick);
-        menuButton.onClick.AddListener(MenuOnClick);
         player = Player.Instance;
         originalBarSize = healthBar.rectTransform.rect.width;
     }
@@ -40,21 +32,34 @@ public class HUDController : MonoBehaviour
         fatigueBar.rectTransform.SetSizeWithCurrentAnchors(
             RectTransform.Axis.Horizontal,
             originalBarSize * player.currentTravelDistance / player.maxTravelDistance);
+
+        ManagePlayerInput();
     }
 
-    void CharListOnClick()
+    public void ShowCharacterList()
     {
 
     }
 
-    void InventoryOnClick()
+    public void ShowInventory()
     {
 
     }
 
-    void MenuOnClick()
+    public void ShowInGameMenu()
     {
-        menuCanvas.SetActive(!menuCanvas.activeInHierarchy);
-        Time.timeScale = Time.timeScale == 0 ? 1 : 0;
+        menuPanel.SetActive(true);
+        Time.timeScale = 0;
+    }
+
+    void ManagePlayerInput()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            //Esc can be pressed both when in menu and when in game
+            //so we need to change it's behaviour accordingly
+            menuPanel.SetActive(!menuPanel.activeInHierarchy);
+            Time.timeScale = Time.timeScale == 0 ? 1 : 0;
+        }
     }
 }
