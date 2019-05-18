@@ -46,8 +46,9 @@ public class HUDController : MonoBehaviour
 
     public void ShowInventory()
     {
-        inventoryPanel.SetActive(true);
-        Time.timeScale = 0;
+        //using one button to switch inventory screen on and off
+        inventoryPanel.SetActive(!inventoryPanel.activeInHierarchy);
+        Time.timeScale = Time.timeScale == 0 ? 1 : 0;
     }
 
     public void ShowInGameMenu()
