@@ -9,6 +9,8 @@ public class HUDController : MonoBehaviour
     public Image radiationBar;
     public Image fatigueBar;
     public GameObject menuPanel;
+    public GameObject inventoryPanel;
+    public GameObject characterPanel;
 
     Player player;
     float originalBarSize;
@@ -38,12 +40,14 @@ public class HUDController : MonoBehaviour
 
     public void ShowCharacterList()
     {
-
+        characterPanel.SetActive(true);
+        Time.timeScale = 0;
     }
 
     public void ShowInventory()
     {
-
+        inventoryPanel.SetActive(true);
+        Time.timeScale = 0;
     }
 
     public void ShowInGameMenu()
