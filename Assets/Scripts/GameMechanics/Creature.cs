@@ -17,7 +17,7 @@ public class SavingThrow
 
 public abstract class Creature : Damageable
 {
-    const int BASE_STAT_VALUE = 11;
+    const int BASE_STAT_VALUE = 10;
     const int BASE_SKILL_VALUE = 0;
     const float BASE_WEIGHT = 20;
     const float WEIGHT_MULTIPLIER = 5;

@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Text.RegularExpressions;
 
 public class FinalPanel : MonoBehaviour
 {
+    public InputField nameInputField;
     public Text nameField;
     public Text armorClassField;
     public Text healthPointsField;
@@ -18,11 +20,14 @@ public class FinalPanel : MonoBehaviour
     private void Start()
     {
         player = Player.Instance;
+        nameInputField.onValidateInput 
+            += delegate (string input, int charIndex, char addedChar) { return ValidateCharacterName(addedChar); };
     }
 
     void Update()
     {
-        player.characterName = nameField.text;
+        player.characterName = nameInputField.text == "" ? 
+            nameInputField.placeholder.GetComponent<Text>().text : nameInputField.text;
         armorClassField.text = player.ArmorClass.ToString();
         healthPointsField.text = player.MaxHealth.ToString();
         radiationPointsField.text = player.MaxRadiation.ToString();
@@ -36,5 +41,11 @@ public class FinalPanel : MonoBehaviour
             $"Скорость передвижения: {player.MoveSpeed}\n\n"
             + $"Модификатор инициативы: {player.InitiativeMod}\n\n"
             + $"Естественная устойчивость: {player.NaturalResistance}";
+    }
+
+    public char ValidateCharacterName(char c)
+    {
+        c = Regex.Replace(c.ToString(), @"[^a-za-яA-ZА-Я\'\.\-"" ]", "\0")[0];
+        return c;
     }
 }

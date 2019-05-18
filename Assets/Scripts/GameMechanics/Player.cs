@@ -12,6 +12,10 @@ public class Player : Creature
     public int money;
     public string characterName;
 
+    public int statPointsToSpend;
+    public int skillPointsToSpend;
+    public int featPointsToSpend;
+
     static Player instance;
     List<Reputation> reputation;
     int currentExp;
@@ -38,6 +42,9 @@ public class Player : Creature
         Feats = new List<Feat>();
         reputation = new List<Reputation>();
         money = 20000;
+        statPointsToSpend = 7;
+        skillPointsToSpend = 5;
+        featPointsToSpend = 1;
     }
 
     void Update()

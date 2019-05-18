@@ -12,7 +12,6 @@ public class FeatSetup : MonoBehaviour
     public Text featTitleText;
     public Text featDescriptionText;
 
-    int pointsLeft;
     Player player;
     List<Feat> availibleFeats;
     Feat selectedFeat;
@@ -20,7 +19,6 @@ public class FeatSetup : MonoBehaviour
     void Start()
     {
         player = Player.Instance;
-        pointsLeft = 2;
 
         //TODO: add proper initialization
         availibleFeats = new List<Feat>()
@@ -49,13 +47,13 @@ public class FeatSetup : MonoBehaviour
         {
             availibleFeats.Add(selectedFeat);
             player.RemoveFeat(selectedFeat);
-            pointsLeft++;
+            player.featPointsToSpend++;
         }
         else if (availibleFeats.Contains(selectedFeat))
         {
             player.AddFeat(selectedFeat);
             availibleFeats.Remove(selectedFeat);
-            pointsLeft--;
+            player.featPointsToSpend--;
         }
         ResetScreen();
     }
@@ -73,7 +71,7 @@ public class FeatSetup : MonoBehaviour
             featButton.GetComponentInChildren<Text>().text = feat.fullName;
             Feat featToTransfer = feat;
             featButton.onClick.AddListener(() => ShowDetails(featToTransfer, true));
-            if (pointsLeft <= 0)
+            if (player.featPointsToSpend <= 0)
                 featButton.interactable = false;
             else
                 featButton.interactable = true;

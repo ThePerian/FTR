@@ -84,6 +84,7 @@ public class SkillSetup : MonoBehaviour
         player = Player.Instance;
         pointsTotal = 5 + player.Stats[StatType.Knowledge].Mod;
         pointsSpent = 0;
+        player.skillPointsToSpend = pointsTotal;
         allButtons = new Dictionary<SkillType, Button[]>
         {
             { SkillType.Acrobatics, new Button[] { plusAcrobatics, minusAcrobatics } },
@@ -117,7 +118,8 @@ public class SkillSetup : MonoBehaviour
             DisableButtonsIfBorderValue(item.Key, item.Value[0], item.Value[1]);
         }
         pointsTotal = 5 + player.Stats[StatType.Knowledge].Mod;
-        pointsField.text = "ОСТАЛОСЬ ОЧКОВ: " + (pointsTotal - pointsSpent).ToString();
+        player.skillPointsToSpend = pointsTotal - pointsSpent;
+        pointsField.text = "ОСТАЛОСЬ ОЧКОВ: " + player.skillPointsToSpend.ToString();
     }
 
     public void ChangeAcrobaticsValue(int amount)
@@ -224,6 +226,7 @@ public class SkillSetup : MonoBehaviour
 
         player.ChangeSkillValue(skill, amount);
         pointsSpent += amount;
+        player.skillPointsToSpend += amount;
         UpdateSkillValues();
     }
 

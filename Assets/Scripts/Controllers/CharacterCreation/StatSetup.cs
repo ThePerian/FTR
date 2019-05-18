@@ -34,7 +34,6 @@ public class StatSetup : MonoBehaviour
     public Button plusReaction;
 
     Player player;
-    int pointsLeft = 0;
     Dictionary<StatType, Button[]> allButtons;
 
     const int MIN_START_VALUE = 7;
@@ -106,13 +105,13 @@ public class StatSetup : MonoBehaviour
         if ((newValue < MIN_START_VALUE) || (newValue > MAX_START_VALUE)) return;
 
         player.ChangeStatValue(type, amount);
-        pointsLeft -= amount;
+        player.statPointsToSpend -= amount;
         UpdateStatValues();
     }
 
     void DisableButtonsIfBorderValue(StatType type, Button plusButton, Button minusButton)
     {
-        if ((player.Stats[type].Value == MAX_START_VALUE) || (pointsLeft == 0))
+        if ((player.Stats[type].Value == MAX_START_VALUE) || (player.statPointsToSpend == 0))
             plusButton.interactable = false;
         else
             plusButton.interactable = true;
@@ -125,7 +124,7 @@ public class StatSetup : MonoBehaviour
 
     void UpdateStatValues()
     {
-        pointsField.text = "ОСТАЛОСЬ ОЧКОВ: " + pointsLeft.ToString();
+        pointsField.text = "ОСТАЛОСЬ ОЧКОВ: " + player.statPointsToSpend.ToString();
         socialField.text = player.Stats[StatType.Social].Value.ToString();
         toughnessField.text = player.Stats[StatType.Toughness].Value.ToString();
         agilityField.text = player.Stats[StatType.Agility].Value.ToString();
