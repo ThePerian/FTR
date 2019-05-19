@@ -14,6 +14,9 @@ public class GlobalMapController : MonoBehaviour
     public Canvas parentCanvas;
     public List<Collider2D> localAreas;
 
+    public delegate void PlayerReady(Vector2 playerPosition);
+    public static event PlayerReady OnPlayerReady;
+
     List<GameObject> existingPoints = new List<GameObject>();
     GameObject playerToken;
 
@@ -32,12 +35,16 @@ public class GlobalMapController : MonoBehaviour
         DelaunayTriangulator delaunay = new DelaunayTriangulator();
         var points = delaunay.GeneratePoints(numberOfPoints, spawnArea, minDistance);
         var triangulation = delaunay.BowyerWatson(points);
-        SpawnPOIs(pointPrefab, points, parentCanvas);
+        //remove junctions that are subjectively too long
+        float maxDistanceBetweenPoints = Player.Instance.maxTravelDistance / 3;
+        SpawnPOIs(pointPrefab, points, maxDistanceBetweenPoints, parentCanvas);
         Vector2 southernPoint = FindStartingPosition(points);
 
         playerToken.transform.SetPositionAndRotation(southernPoint, Quaternion.identity);
         playerToken.GetComponent<PlayerTokenController>().OnReachedDestination
             += GetComponent<RandomEventController>().StartEvent;
+
+        OnPlayerReady?.Invoke(playerToken.transform.position);
     }
     
     void Update()
@@ -50,7 +57,7 @@ public class GlobalMapController : MonoBehaviour
         //    -= GetComponent<RandomEventController>().StartEvent;
     }
 
-    public void SpawnPOIs(GameObject objectToSpawn, IEnumerable<Point> locations, Canvas parentCanvas)
+    public void SpawnPOIs(GameObject objectToSpawn, IEnumerable<Point> locations, float maxDistance, Canvas parentCanvas)
     {
         foreach (var point in locations)
         {
@@ -62,7 +69,8 @@ public class GlobalMapController : MonoBehaviour
 
             List<Vector2> neighbours = new List<Vector2>();
             foreach (var p in point.neighbourPoints)
-                neighbours.Add(p.position);
+                if (Vector2.Distance(p.position, point.position) <= maxDistance)
+                    neighbours.Add(p.position);
 
             GameObject newPoint = Instantiate(
                 objectToSpawn, 
