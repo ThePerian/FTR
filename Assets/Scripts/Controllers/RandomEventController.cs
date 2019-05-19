@@ -16,10 +16,13 @@ public class RandomEventController : MonoBehaviour
     //here be the dialogs to choose from
     //TODO: add procedural choice of dialogs
     string[] dialogues = { "Charlie", "TriggeredDude"};
+    //dialogue to play when game starts
+    string startDialogue = "Beginning";
 
     void Start()
     {
         dialogueComponent = GetComponent<VIDE_Assign>();
+        CameraController.OnCameraSet += PlayStartDialogue;
     }
 
     void Update()
@@ -38,6 +41,17 @@ public class RandomEventController : MonoBehaviour
         VD.OnEnd += EndDialogue;
         int randomDialog = GetRandomDialog();
         VD.BeginDialogue(dialogues[randomDialog]);
+
+        Time.timeScale = 0;
+    }
+
+    public void StartEvent(string dialogueName)
+    {
+        eventPanel.SetActive(true);
+
+        VD.OnNodeChange += UpdateUI;
+        VD.OnEnd += EndDialogue;
+        VD.BeginDialogue(dialogueName);
 
         Time.timeScale = 0;
     }
@@ -92,5 +106,11 @@ public class RandomEventController : MonoBehaviour
     {
         VD.nodeData.commentIndex = playerChoice;
         VD.Next();
+    }
+    
+    public void PlayStartDialogue()
+    {
+        CameraController.OnCameraSet -= PlayStartDialogue;
+        StartEvent(startDialogue);
     }
 }

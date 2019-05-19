@@ -10,6 +10,9 @@ public class CameraController : MonoBehaviour
     public float maxSize = 3f;
     public float zoomSpeed = 128f;
     public float moveSpeed = 10f;
+
+    public delegate void CameraSet();
+    public static event CameraSet OnCameraSet;
     
     CinemachineVirtualCamera _vCamera;
 
@@ -46,7 +49,10 @@ public class CameraController : MonoBehaviour
                 Mathf.Clamp(_vCamera.m_Lens.OrthographicSize - zoomStep, minSize, maxSize);
 
             if ((Vector2)transform.position == startPosition)
+            {
                 isDoingStartMovement = false;
+                OnCameraSet?.Invoke();
+            }
             
             return;
         }
