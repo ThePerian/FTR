@@ -19,6 +19,13 @@ public class HUDController : MonoBehaviour
     {
         player = Player.Instance;
         originalBarSize = healthBar.rectTransform.rect.width;
+        //reset widths of background bars in case of incorrect sizes due to resolution change
+        foreach (var image in healthBar.gameObject.GetComponentsInChildren<Image>())
+            image.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, originalBarSize);
+        foreach (var image in radiationBar.gameObject.GetComponentsInChildren<Image>())
+            image.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, originalBarSize);
+        foreach (var image in fatigueBar.gameObject.GetComponentsInChildren<Image>())
+            image.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, originalBarSize);
     }
     
     void Update()
