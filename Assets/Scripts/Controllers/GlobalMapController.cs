@@ -41,7 +41,7 @@ public class GlobalMapController : MonoBehaviour
         Vector2 southernPoint = FindStartingPosition(points);
 
         playerToken.transform.SetPositionAndRotation(southernPoint, Quaternion.identity);
-        playerToken.GetComponent<PlayerTokenController>().OnReachedDestination
+        playerToken.GetComponent<PlayerToken>().OnReachedDestination
             += GetComponent<RandomEventController>().StartEvent;
 
         OnPlayerReady?.Invoke(playerToken.transform.position);
@@ -78,8 +78,8 @@ public class GlobalMapController : MonoBehaviour
                 Quaternion.identity, 
                 parentCanvas.transform);
             
-            newPoint.GetComponent<PointController>().neighbourPoints = neighbours;
-            newPoint.GetComponent<PointController>().playerToken = playerToken;
+            newPoint.GetComponent<PointOfInterest>().neighbourPoints = neighbours;
+            newPoint.GetComponent<PointOfInterest>().playerToken = playerToken;
 
             foreach (var area in localAreas)
             {

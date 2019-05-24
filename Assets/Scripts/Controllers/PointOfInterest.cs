@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class PointController : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class PointOfInterest : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public Sprite unexplored;
     public Sprite explored;
@@ -85,7 +85,7 @@ public class PointController : MonoBehaviour, IPointerEnterHandler, IPointerExit
             && isNeighbour)
         {
             isExplored = true;
-            playerToken.GetComponent<PlayerTokenController>().destination = transform.position;
+            playerToken.GetComponent<PlayerToken>().destination = transform.position;
             player.currentTravelDistance -= travelDistance;
         }
     }

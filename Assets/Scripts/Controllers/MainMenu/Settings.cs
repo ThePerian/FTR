@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
 
-public class SettingsController : MonoBehaviour
+public class Settings : MonoBehaviour
 {
     public Text gameHeader;
     public Text videoHeader;

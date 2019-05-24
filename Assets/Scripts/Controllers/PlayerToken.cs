@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerTokenController : MonoBehaviour
+public class PlayerToken : MonoBehaviour
 {
     public Vector2 destination;
     public delegate void DestinationReached();

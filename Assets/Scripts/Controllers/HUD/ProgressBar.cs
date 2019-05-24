@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ProgressBarController : MonoBehaviour
+public class ProgressBar : MonoBehaviour
 {
     public Image mask;
     public float minValue;

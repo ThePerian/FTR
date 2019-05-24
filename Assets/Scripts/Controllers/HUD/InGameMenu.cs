@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class InGameMenuController : MonoBehaviour
+public class InGameMenu : MonoBehaviour
 {
     public void ShowSettings()
     {
