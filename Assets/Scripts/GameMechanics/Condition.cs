@@ -1,9 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class CreatureCondition : MonoBehaviour
+public class Condition : MonoBehaviour
 {
+    public string fullName;
+    public Sprite conditionIcon;
     public ApplicableEffect effect = new ApplicableEffect();
-    int _stage;
+    public int stage;
 }

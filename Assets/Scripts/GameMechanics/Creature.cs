@@ -31,11 +31,11 @@ public abstract class Creature : Damageable
     const int BASE_SPEED = 12;
     const int SPEED_MULTIPLIER = 2;
     
-    public Dictionary<StatType, CreatureStat> Stats { get; protected set; }
+    public Dictionary<StatType, Stat> Stats { get; protected set; }
     public Dictionary<SavingThrowType, SavingThrow> SavingThrows { get; protected set; }
     public Dictionary<SkillType, Skill> Skills { get; protected set; }
     public List<InventoryItem> Inventory { get; protected set; }
-    public List<CreatureCondition> Conditions { get; protected set; }
+    public List<Condition> Conditions { get; protected set; }
     public float MaxWeight
     {
         get { return BASE_WEIGHT + Stats[StatType.Toughness].Mod * WEIGHT_MULTIPLIER; }
@@ -63,15 +63,15 @@ public abstract class Creature : Damageable
 
     public Creature() : base()
     {
-        Stats = new Dictionary<StatType, CreatureStat>
+        Stats = new Dictionary<StatType, Stat>
         {
-            {StatType.Social, new CreatureStat(StatType.Social, BASE_STAT_VALUE) },
-            {StatType.Toughness, new CreatureStat(StatType.Toughness, BASE_STAT_VALUE) },
-            {StatType.Agility, new CreatureStat(StatType.Agility, BASE_STAT_VALUE) },
-            {StatType.Lookout, new CreatureStat(StatType.Lookout, BASE_STAT_VALUE) },
-            {StatType.Knowledge, new CreatureStat(StatType.Knowledge, BASE_STAT_VALUE) },
-            {StatType.Endurance, new CreatureStat(StatType.Endurance, BASE_STAT_VALUE) },
-            {StatType.Reaction, new CreatureStat(StatType.Reaction, BASE_STAT_VALUE) }
+            {StatType.Social, new Stat(StatType.Social, BASE_STAT_VALUE) },
+            {StatType.Toughness, new Stat(StatType.Toughness, BASE_STAT_VALUE) },
+            {StatType.Agility, new Stat(StatType.Agility, BASE_STAT_VALUE) },
+            {StatType.Lookout, new Stat(StatType.Lookout, BASE_STAT_VALUE) },
+            {StatType.Knowledge, new Stat(StatType.Knowledge, BASE_STAT_VALUE) },
+            {StatType.Endurance, new Stat(StatType.Endurance, BASE_STAT_VALUE) },
+            {StatType.Reaction, new Stat(StatType.Reaction, BASE_STAT_VALUE) }
         };
 
         SavingThrows = new Dictionary<SavingThrowType, SavingThrow>
@@ -138,7 +138,7 @@ public abstract class Creature : Damageable
         };
 
         Inventory = new List<InventoryItem>();
-        Conditions = new List<CreatureCondition>();
+        Conditions = new List<Condition>();
     }
 
     public int ChangeStatValue(StatType stat, int amount)

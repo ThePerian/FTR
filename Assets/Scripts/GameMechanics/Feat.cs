@@ -6,5 +6,6 @@ public class Feat
 {
     public string fullName;
     public string description;
+    public bool isRepeatable;
     public ApplicableEffect effect = new ApplicableEffect();
 }

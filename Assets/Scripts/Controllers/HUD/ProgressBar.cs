@@ -12,6 +12,13 @@ public class ProgressBar : MonoBehaviour
 
     float originalBarSize;
 
+    public ProgressBar(Image mask, float current, float max)
+    {
+        this.mask = mask;
+        currentValue = current;
+        maxValue = max;
+    }
+
     private void Start()
     {
         originalBarSize = mask.rectTransform.rect.width;

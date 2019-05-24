@@ -7,7 +7,7 @@ public enum StatType
     Social, Toughness, Agility, Lookout, Knowledge, Endurance, Reaction
 }
 
-public class CreatureStat
+public class Stat
 {
     RangeInt valueRange = new RangeInt(0, 20);
 
@@ -21,9 +21,24 @@ public class CreatureStat
         return Value;
     }
 
-    public CreatureStat(StatType type, int value)
+    public Stat(StatType type, int value)
     {
         this.type = type;
         Value = Mathf.Clamp(value, valueRange.start, valueRange.end);
+    }
+
+    public static StatType GetTypeFromString(string statName)
+    {
+        statName = statName.ToLower().Trim();
+        switch(statName)
+        {
+            case "social": return StatType.Social;
+            case "toughness": return StatType.Toughness;
+            case "agility": return StatType.Agility;
+            case "lookout": return StatType.Lookout;
+            case "knowledge": return StatType.Knowledge;
+            case "endurance": return StatType.Endurance;
+            default: return StatType.Reaction;
+        }
     }
 }
