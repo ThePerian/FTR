@@ -153,6 +153,7 @@ public class CharacterScreen : MonoBehaviour
     Dictionary<StatType, int> startStatValues;
     Dictionary<SkillType, int> startSkillValues;
     List<Feat> availibleFeats;
+    List<Feat> purchasedFeats;
 
     private void Start()
     {
@@ -163,6 +164,7 @@ public class CharacterScreen : MonoBehaviour
         player = Player.Instance;
         startStatValues = new Dictionary<StatType, int>();
         startSkillValues = new Dictionary<SkillType, int>();
+        purchasedFeats = new List<Feat>();
         levelBar = new ProgressBar(levelBarMask, player.CurrentExp, player.ExpToLevelUp);
         //TODO: add proper initialization
         availibleFeats = new List<Feat>()
@@ -255,6 +257,9 @@ public class CharacterScreen : MonoBehaviour
         startSkillValues = new Dictionary<SkillType, int>();
         foreach (var item in player.Skills)
             startSkillValues.Add(item.Key, item.Value.Value);
+        purchasedFeats = new List<Feat>();
+        foreach (var item in player.Feats)
+            purchasedFeats.Add(item);
 
         DisableButtons();
         ResetScreen();
@@ -315,35 +320,26 @@ public class CharacterScreen : MonoBehaviour
         featPointsLeft.text = "Черты";
         if (player.featPointsToSpend > 0)
             featPointsLeft.text += $"\nОчков осталось: {player.featPointsToSpend}";
-        //clear area before adding buttons
         foreach (Button b in featArea.GetComponentsInChildren<Button>())
         {
-            Destroy(b.gameObject);
-        }
-        foreach (var feat in player.Feats)
-        {
-            GameObject newFeat = Instantiate(featPrefab);
-            newFeat.GetComponentInChildren<Text>().text = feat.fullName;
-            newFeat.GetComponentInChildren<Button>().interactable = false;
-            newFeat.transform.SetParent(featArea);
-        }
-        if (player.featPointsToSpend > 0)
-        {
-            foreach (Feat f in availibleFeats)
+            string featName = b.GetComponentInChildren<Text>().text;
+            //make button interactable if it's for one of new, just taken feats
+            //or if it's for one of the non-taken feats and there're points left to spend
+            if ((!purchasedFeats.Exists(x => x.fullName == featName)
+                && player.Feats.Exists(x => x.fullName == featName))
+                || (!player.Feats.Exists(x => x.fullName == featName)
+                && (player.featPointsToSpend > 0)))
             {
-                if (f.isRepeatable || !player.Feats.Exists(x => x.fullName == f.fullName))
-                {
-                    GameObject newFeat = Instantiate(featPrefab);
-                    newFeat.GetComponentInChildren<Text>().text = f.fullName;
-                    Feat temp = f;
-                    newFeat.GetComponentInChildren<Button>().onClick.AddListener(() => AddFeat(temp));
-                    newFeat.transform.SetParent(featArea);
-                }
+                b.interactable = true;
+            }
+            else
+            {
+                b.interactable = false;
             }
         }
 
-        //set up diseases area
-        SetDiseaseField(bloodPoisoningField, "Заражение крови", "Blood poisoning");
+            //set up diseases area
+            SetDiseaseField(bloodPoisoningField, "Заражение крови", "Blood poisoning");
         SetDiseaseField(radiationSicknessField, "Лучевая болезнь", "Radiation sickness");
         SetDiseaseField(foodPoisoningField, "Пищевое отравление", "Food poisoning");
         SetDiseaseField(commonColdField, "Простуда", "Common cold");
@@ -436,18 +432,24 @@ public class CharacterScreen : MonoBehaviour
         ResetScreen();
     }
 
-    public void AddFeat(Feat feat)
+    public void AddFeat(Feat feat, Button caller)
     {
         player.AddFeat(feat);
         player.featPointsToSpend--;
 
+        caller.onClick.RemoveAllListeners();
+        caller.onClick.AddListener(() => RemoveFeat(feat, caller));
+
         ResetScreen();
     }
 
-    public void RemoveFeat(Feat feat)
+    public void RemoveFeat(Feat feat, Button caller)
     {
         player.RemoveFeat(feat);
         player.featPointsToSpend++;
+
+        caller.onClick.RemoveAllListeners();
+        caller.onClick.AddListener(() => AddFeat(feat, caller));
 
         ResetScreen();
     }
@@ -512,6 +514,34 @@ public class CharacterScreen : MonoBehaviour
             {
                 item.Value[0].gameObject.SetActive(false);
                 item.Value[1].gameObject.SetActive(false);
+            }
+        }
+
+        //clear area before adding buttons
+        foreach (Button b in featArea.GetComponentsInChildren<Button>())
+        {
+            Destroy(b.gameObject);
+        }
+        foreach (var feat in player.Feats)
+        {
+            GameObject newFeat = Instantiate(featPrefab);
+            newFeat.GetComponentInChildren<Text>().text = feat.fullName;
+            newFeat.GetComponentInChildren<Button>().interactable = false;
+            newFeat.transform.SetParent(featArea);
+        }
+        if (player.featPointsToSpend > 0)
+        {
+            foreach (Feat f in availibleFeats)
+            {
+                if (f.isRepeatable || !player.Feats.Exists(x => x.fullName == f.fullName))
+                {
+                    GameObject newFeat = Instantiate(featPrefab);
+                    Button featButton = newFeat.GetComponent<Button>();
+                    newFeat.GetComponentInChildren<Text>().text = f.fullName;
+                    Feat temp = f;
+                    featButton.onClick.AddListener(() => AddFeat(temp, featButton));
+                    newFeat.transform.SetParent(featArea);
+                }
             }
         }
     }

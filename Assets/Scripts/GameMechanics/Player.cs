@@ -34,7 +34,7 @@ public class Player : Creature
     const int BASE_MONEY = 20000;
     const int BASE_STAT_POINTS = 7;
     const int BASE_SKILL_POINTS = 5;
-    const int BASE_FEAT_POINTS = 1;
+    const int BASE_FEAT_POINTS = 2;
     const int STARTING_LEVEL = 0;
     const int BASE_MAX_HUNGER = 3;
     const int BASE_MAX_THIRST = 3;
@@ -103,7 +103,7 @@ public class Player : Creature
         //do some inspection
         try
         {
-            Feats.Remove(featToRemove);
+            Feats.RemoveAll(x => x.fullName == featToRemove.fullName);
         }
         catch (Exception e)
         {
