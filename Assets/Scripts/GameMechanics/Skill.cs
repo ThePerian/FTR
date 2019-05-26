@@ -20,6 +20,9 @@ public class Skill
     public int Value { get; private set; }
     public StatType baseStat;
 
+    public const int MAX_PLAYER_VALUE = 5;
+    public const int MIN_PLAYER_VALUE = 0;
+
     public int Increase()
     {
         Value = Mathf.Clamp(Value + 1, valueRange.start, valueRange.end);

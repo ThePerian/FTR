@@ -14,6 +14,8 @@ public class Stat
     public StatType type;
     public int Value { get; private set; }
     public int Mod { get{ return Mathf.FloorToInt((Value - 10f) / 2f); } }
+    public const int MAX_PLAYER_VALUE = 20;
+    public const int MIN_PLAYER_VALUE = 0;
 
     public int ChangeValue(int amount)
     {

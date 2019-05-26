@@ -150,13 +150,19 @@ public class CharacterScreen : MonoBehaviour
     Dictionary<StatType, Text> statModFields;
     Dictionary<SkillType, Button[]> skillButtons;
     Dictionary<SkillType, Text> skillValueFields;
-    Dictionary<StatType, Stat> startStatValues;
-    Dictionary<SkillType, Skill> startSkillValues;
+    Dictionary<StatType, int> startStatValues;
+    Dictionary<SkillType, int> startSkillValues;
     List<Feat> availibleFeats;
 
     private void Start()
     {
+    }
+
+    private void Awake()
+    {
         player = Player.Instance;
+        startStatValues = new Dictionary<StatType, int>();
+        startSkillValues = new Dictionary<SkillType, int>();
         levelBar = new ProgressBar(levelBarMask, player.CurrentExp, player.ExpToLevelUp);
         //TODO: add proper initialization
         availibleFeats = new List<Feat>()
@@ -239,11 +245,18 @@ public class CharacterScreen : MonoBehaviour
             { SkillType.Survival, survivalValue },
             { SkillType.ZoneKnowledge, zoneKnowledgeValue }
         };
-        ResetScreen();
     }
 
     private void OnEnable()
     {
+        startStatValues = new Dictionary<StatType, int>();
+        foreach (var item in player.Stats)
+            startStatValues.Add(item.Key, item.Value.Value);
+        startSkillValues = new Dictionary<SkillType, int>();
+        foreach (var item in player.Skills)
+            startSkillValues.Add(item.Key, item.Value.Value);
+
+        DisableButtons();
         ResetScreen();
     }
 
@@ -254,11 +267,12 @@ public class CharacterScreen : MonoBehaviour
 
     void ResetScreen()
     {
-        startStatValues = new Dictionary<StatType, Stat>(player.Stats);
-        startSkillValues = new Dictionary<SkillType, Skill>(player.Skills);
         //set up screen header
         nameText.text = $"Данные персонажа\n{player.characterName}";
         levelText.text = $"Уровень {player.Level}. До следующего уровня:";
+        //clear the area
+        foreach (Image i in conditionsArea.GetComponentsInChildren<Image>())
+            Destroy(i.gameObject);
         foreach (Condition c in player.Conditions)
         {
             GameObject newCondition = Instantiate(conditionPrefab);
@@ -279,22 +293,9 @@ public class CharacterScreen : MonoBehaviour
         {
             item.Value.text = player.Stats[item.Key].Mod.ToString();
         }
-        if (player.statPointsToSpend > 0)
+        foreach (var item in statButtons)
         {
-            foreach (var item in statButtons)
-            {
-                item.Value[0].gameObject.SetActive(true);
-                item.Value[1].gameObject.SetActive(true);
-                UpdateStatButtons(item.Key, item.Value[0], item.Value[1]);
-            }
-        }
-        else
-        {
-            foreach (var item in statButtons)
-            {
-                item.Value[0].gameObject.SetActive(false);
-                item.Value[1].gameObject.SetActive(false);
-            }
+            UpdateStatButtons(item.Key, item.Value[0], item.Value[1]);
         }
 
         //set up skill area
@@ -304,23 +305,6 @@ public class CharacterScreen : MonoBehaviour
         foreach (var item in skillValueFields)
         {
             item.Value.text = player.Skills[item.Key].Value.ToString();
-        }
-        if (player.skillPointsToSpend > 0)
-        {
-            foreach (var item in skillButtons)
-            {
-                item.Value[0].gameObject.SetActive(true);
-                item.Value[1].gameObject.SetActive(true);
-                UpdateSkillButtons(item.Key, item.Value[0], item.Value[1]);
-            }
-        }
-        else
-        {
-            foreach (var item in skillButtons)
-            {
-                item.Value[0].gameObject.SetActive(false);
-                item.Value[1].gameObject.SetActive(false);
-            }
         }
         foreach (var item in skillButtons)
         {
@@ -332,16 +316,16 @@ public class CharacterScreen : MonoBehaviour
         if (player.featPointsToSpend > 0)
             featPointsLeft.text += $"\nОчков осталось: {player.featPointsToSpend}";
         //clear area before adding buttons
-        foreach (Transform t in featArea.GetComponentsInChildren<Transform>())
+        foreach (Button b in featArea.GetComponentsInChildren<Button>())
         {
-            Destroy(t.gameObject);
+            Destroy(b.gameObject);
         }
         foreach (var feat in player.Feats)
         {
             GameObject newFeat = Instantiate(featPrefab);
             newFeat.GetComponentInChildren<Text>().text = feat.fullName;
             newFeat.GetComponentInChildren<Button>().interactable = false;
-            newFeat.transform.parent = featArea;
+            newFeat.transform.SetParent(featArea);
         }
         if (player.featPointsToSpend > 0)
         {
@@ -353,7 +337,7 @@ public class CharacterScreen : MonoBehaviour
                     newFeat.GetComponentInChildren<Text>().text = f.fullName;
                     Feat temp = f;
                     newFeat.GetComponentInChildren<Button>().onClick.AddListener(() => AddFeat(temp));
-                    newFeat.transform.parent = featArea;
+                    newFeat.transform.SetParent(featArea);
                 }
             }
         }
@@ -420,33 +404,115 @@ public class CharacterScreen : MonoBehaviour
 
     }
 
-    public void ChangeStat(string statName, int value)
+    public void IncreaseStat(string statName)
     {
+        player.Stats[Stat.GetTypeFromString(statName)].ChangeValue(1);
+        player.statPointsToSpend--;
 
+        ResetScreen();
     }
 
-    public void ChangeSkill(string skillName, int value)
+    public void DecreaseStat(string statName)
     {
+        player.Stats[Stat.GetTypeFromString(statName)].ChangeValue(-1);
+        player.statPointsToSpend++;
 
+        ResetScreen();
+    }
+
+    public void IncreaseSkill(string skillName)
+    {
+        player.Skills[Skill.GetTypeFromString(skillName)].Increase();
+        player.skillPointsToSpend--;
+
+        ResetScreen();
+    }
+
+    public void DecreaseSkill(string skillName)
+    {
+        player.Skills[Skill.GetTypeFromString(skillName)].Decrease();
+        player.skillPointsToSpend++;
+
+        ResetScreen();
     }
 
     public void AddFeat(Feat feat)
     {
+        player.AddFeat(feat);
+        player.featPointsToSpend--;
 
+        ResetScreen();
     }
 
     public void RemoveFeat(Feat feat)
     {
+        player.RemoveFeat(feat);
+        player.featPointsToSpend++;
 
+        ResetScreen();
     }
 
     void UpdateStatButtons(StatType stat, Button plusButton, Button minusButton)
     {
+        if ((player.Stats[stat].Value == Stat.MAX_PLAYER_VALUE) || (player.statPointsToSpend == 0))
+            plusButton.interactable = false;
+        else
+            plusButton.interactable = true;
 
+        if (player.Stats[stat].Value == startStatValues[stat])
+            minusButton.interactable = false;
+        else
+            minusButton.interactable = true;
     }
 
     void UpdateSkillButtons(SkillType skill, Button plusButton, Button minusButton)
     {
+        if ((player.Skills[skill].Value == Skill.MAX_PLAYER_VALUE) || (player.skillPointsToSpend == 0))
+            plusButton.interactable = false;
+        else
+            plusButton.interactable = true;
 
+        if (player.Skills[skill].Value == startSkillValues[skill])
+            minusButton.interactable = false;
+        else
+            minusButton.interactable = true;
+    }
+
+    void DisableButtons()
+    {
+        if (player.statPointsToSpend > 0)
+        {
+            foreach (var item in statButtons)
+            {
+                item.Value[0].gameObject.SetActive(true);
+                item.Value[1].gameObject.SetActive(true);
+            }
+        }
+        else
+        {
+            foreach (var item in statButtons)
+            {
+                item.Value[0].gameObject.SetActive(false);
+                item.Value[1].gameObject.SetActive(false);
+            }
+        }
+
+
+        if (player.skillPointsToSpend > 0)
+        {
+            foreach (var item in skillButtons)
+            {
+                item.Value[0].gameObject.SetActive(true);
+                item.Value[1].gameObject.SetActive(true);
+            }
+        }
+        else
+        {
+            foreach (var item in skillButtons)
+            {
+                item.Value[0].gameObject.SetActive(false);
+                item.Value[1].gameObject.SetActive(false);
+            }
+        }
     }
 }

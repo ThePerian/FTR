@@ -75,6 +75,7 @@ public class Player : Creature
             { "Food poisoning", new Condition()},
             { "Common cold", new Condition()}
         };
+        characterName = "";
         money = BASE_MONEY;
         statPointsToSpend = BASE_STAT_POINTS;
         skillPointsToSpend = BASE_SKILL_POINTS;
