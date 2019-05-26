@@ -3,18 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum SavingThrowType
-{
-    Fortitude, Will, Reflex, Vigilance
-}
-
-public class SavingThrow
-{
-    public SavingThrowType type;
-    public int value;
-    public StatType baseStat;
-}
-
 public abstract class Creature : Damageable
 {
     const int BASE_STAT_VALUE = 10;
@@ -82,7 +70,6 @@ public abstract class Creature : Damageable
                 {
                     baseStat = StatType.Endurance,
                     type = SavingThrowType.Fortitude,
-                    value = Stats[StatType.Endurance].Mod
                 }
             },
             {
@@ -91,7 +78,6 @@ public abstract class Creature : Damageable
                 {
                     baseStat = StatType.Reaction,
                     type = SavingThrowType.Reflex,
-                    value = Stats[StatType.Reaction].Mod
                 }
             },
             {
@@ -100,7 +86,6 @@ public abstract class Creature : Damageable
                 {
                     baseStat = StatType.Social,
                     type = SavingThrowType.Will,
-                    value = Stats[StatType.Social].Mod
                 }
             },
             {
@@ -109,7 +94,6 @@ public abstract class Creature : Damageable
                 {
                     baseStat = StatType.Lookout,
                     type = SavingThrowType.Vigilance,
-                    value = Stats[StatType.Lookout].Mod
                 }
             }
         };
@@ -144,16 +128,8 @@ public abstract class Creature : Damageable
     public int ChangeStatValue(StatType stat, int amount)
     {
         Stats[stat].ChangeValue(amount);
-        UpdateSavingThrowByStat(stat);
 
         return Stats[stat].Value;
-    }
-
-    protected void UpdateSavingThrowByStat(StatType stat)
-    {
-        foreach (var save in SavingThrows)
-            if (save.Value.baseStat == stat)
-                save.Value.value = Stats[stat].Mod;
     }
 
     public int ChangeSkillValue(SkillType skill, int amount)

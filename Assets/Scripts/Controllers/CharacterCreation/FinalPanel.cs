@@ -33,10 +33,10 @@ public class FinalPanel : MonoBehaviour
         radiationPointsField.text = player.MaxRadiation.ToString();
         actionPointsField.text = player.MaxActionPoints.ToString();
         savingThrowsField.text =
-            $"Стойкость: {player.SavingThrows[SavingThrowType.Fortitude].value}\n\n"
-            + $"Сила воли: {player.SavingThrows[SavingThrowType.Will].value}\n\n"
-            + $"Рефлекс: {player.SavingThrows[SavingThrowType.Reflex].value}\n\n"
-            + $"Бдительность: {player.SavingThrows[SavingThrowType.Vigilance].value}";
+            $"Стойкость: {player.SavingThrows[SavingThrowType.Fortitude].Value}\n\n"
+            + $"Сила воли: {player.SavingThrows[SavingThrowType.Will].Value}\n\n"
+            + $"Рефлекс: {player.SavingThrows[SavingThrowType.Reflex].Value}\n\n"
+            + $"Бдительность: {player.SavingThrows[SavingThrowType.Vigilance].Value}";
         miscField.text =
             $"Скорость передвижения: {player.MoveSpeed}\n\n"
             + $"Модификатор инициативы: {player.InitiativeMod}\n\n"

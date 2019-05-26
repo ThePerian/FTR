@@ -374,10 +374,10 @@ public class CharacterScreen : MonoBehaviour
         speedValue.text = player.MoveSpeed.ToString();
         initiativeValue.text = player.InitiativeMod.ToString();
         resistanceValue.text = player.NaturalResistance.ToString();
-        fortitudeValue.text = player.SavingThrows[SavingThrowType.Fortitude].value.ToString();
-        willValue.text = player.SavingThrows[SavingThrowType.Will].value.ToString(); ;
-        reflexValue.text = player.SavingThrows[SavingThrowType.Reflex].value.ToString(); ;
-        vigilanceValue.text = player.SavingThrows[SavingThrowType.Vigilance].value.ToString(); ;
+        fortitudeValue.text = player.SavingThrows[SavingThrowType.Fortitude].Value.ToString();
+        willValue.text = player.SavingThrows[SavingThrowType.Will].Value.ToString(); ;
+        reflexValue.text = player.SavingThrows[SavingThrowType.Reflex].Value.ToString(); ;
+        vigilanceValue.text = player.SavingThrows[SavingThrowType.Vigilance].Value.ToString(); ;
         weightValue.text = player.MaxWeight.ToString();
     }
 
