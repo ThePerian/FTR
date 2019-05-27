@@ -24,7 +24,7 @@ public class Inventory
         Tier1, Tier2, Tier3, Tier4
     }
 
-    public int Count { get { return tempBag.Count; } }
+    public int Count { get { return tempBag.Length; } }
 
     InventoryItem helmet;
     InventoryItem mask;
@@ -43,24 +43,38 @@ public class Inventory
     InventoryItem knife;
     InventoryItem container;
     int boltCount;
-    List<InventoryItem> tempBag;
+    InventoryItem[] tempBag;
 
     public Inventory()
     {
-        tempBag = new List<InventoryItem>();
+        tempBag = new InventoryItem[12];
     }
 
     public void Add(InventoryItem item)
     {
-        tempBag.Add(item);
+        for (int i = 0; i < tempBag.Length; i++)
+        {
+            if (tempBag[i] == null)
+            {
+                tempBag[i] = item;
+                return;
+            }
+        }
     }
 
     public void Remove(InventoryItem item)
     {
-        tempBag.Remove(item);
+        for (int i = 0; i < tempBag.Length; i++)
+        {
+            if (tempBag[i].fullName == item.fullName)
+            {
+                tempBag[i] = null;
+                return;
+            }
+        }
     }
 
-    public List<InventoryItem> GetInventoryItems()
+    public InventoryItem[] GetInventoryItems()
     {
         return tempBag;
     }
