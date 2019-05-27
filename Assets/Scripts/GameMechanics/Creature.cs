@@ -22,7 +22,7 @@ public abstract class Creature : Damageable
     public Dictionary<StatType, Stat> Stats { get; protected set; }
     public Dictionary<SavingThrowType, SavingThrow> SavingThrows { get; protected set; }
     public Dictionary<SkillType, Skill> Skills { get; protected set; }
-    public List<InventoryItem> Inventory { get; protected set; }
+    public Inventory Inventory { get; protected set; }
     public List<Condition> Conditions { get; protected set; }
     public float MaxWeight
     {
@@ -121,7 +121,7 @@ public abstract class Creature : Damageable
             { SkillType.ZoneKnowledge, new Skill(BASE_SKILL_VALUE, StatType.Knowledge)},
         };
 
-        Inventory = new List<InventoryItem>();
+        Inventory = new Inventory();
         Conditions = new List<Condition>();
     }
 

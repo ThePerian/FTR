@@ -116,7 +116,7 @@ public class StartingShop : MonoBehaviour
             else
                 itemButton.GetComponent<Button>().interactable = true;
         }
-        foreach (var item in player.Inventory)
+        foreach (var item in player.Inventory.GetInventoryItems())
         {
             GameObject itemButton = Instantiate(itemButtonPrefab, playerArea);
             itemButton.GetComponent<Image>().sprite = item.icon ?? defaultSprite;
