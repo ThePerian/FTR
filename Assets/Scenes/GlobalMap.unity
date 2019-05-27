@@ -12406,6 +12406,12 @@ MonoBehaviour:
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 1
   m_ChildControlHeight: 1
+--- !u!224 &1487024181 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 6772122670995815473, guid: e05605eafe4ba464ebe135456c98ad9a,
+    type: 3}
+  m_PrefabInstance: {fileID: 1073201773091430457}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1490093770
 GameObject:
   m_ObjectHideFlags: 0
@@ -17348,13 +17354,14 @@ GameObject:
   - component: {fileID: 1942928938}
   - component: {fileID: 1942928940}
   - component: {fileID: 1942928939}
+  - component: {fileID: 1942928941}
   m_Layer: 5
   m_Name: InventoryPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1942928938
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17430,6 +17437,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1942928937}
   m_CullTransparentMesh: 0
+--- !u!114 &1942928941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1942928937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb98641588181d64192f4200fef791e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventoryCellPrefab: {fileID: 3584941726057959007, guid: 0099b05182115c94da709be3a63a85c5,
+    type: 3}
+  inventoryItemPrefab: {fileID: 7143582465093784135, guid: 4aca51ae8c0e4834b984d42f6273ed70,
+    type: 3}
+  backpackTier1Area: {fileID: 1487024181}
+  defaultSprite: {fileID: 21300002, guid: 0940df9280447534388a1bb61a0f628e, type: 3}
 --- !u!1 &1945193115
 GameObject:
   m_ObjectHideFlags: 0
