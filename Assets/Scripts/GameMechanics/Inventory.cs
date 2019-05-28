@@ -4,27 +4,7 @@ using UnityEngine;
 
 public class Inventory
 {
-    public enum BagTier
-    {
-        Tier1, Tier2
-    }
-
-    public enum VestTier
-    {
-        Tier1, Tier2, Tier3
-    }
-
-    public enum BackpackTier
-    {
-        Tier1, Tier2, Tier3
-    }
-    
-    public enum ContainerTier
-    {
-        Tier1, Tier2, Tier3, Tier4
-    }
-
-    public int Count { get { return tempBag.Length; } }
+    public int Count { get { return CountItems(); } }
 
     InventoryItem helmet;
     InventoryItem mask;
@@ -43,39 +23,33 @@ public class Inventory
     InventoryItem knife;
     InventoryItem container;
     int boltCount;
-    InventoryItem[] tempBag;
+    ItemHolder tempBag;
 
     public Inventory()
     {
-        tempBag = new InventoryItem[12];
+        tempBag = new ItemHolder(12);
     }
 
     public void Add(InventoryItem item)
     {
-        for (int i = 0; i < tempBag.Length; i++)
-        {
-            if (tempBag[i] == null)
-            {
-                tempBag[i] = item;
-                return;
-            }
-        }
+        tempBag.Add(item);
     }
 
     public void Remove(InventoryItem item)
     {
-        for (int i = 0; i < tempBag.Length; i++)
-        {
-            if (tempBag[i].fullName == item.fullName)
-            {
-                tempBag[i] = null;
-                return;
-            }
-        }
+        tempBag.RemoveFirst(item);
     }
 
     public InventoryItem[] GetInventoryItems()
     {
-        return tempBag;
+        return tempBag.items;
+    }
+
+    int CountItems()
+    {
+        int result = 0;
+        result += tempBag.items.Length;
+
+        return result;
     }
 }
