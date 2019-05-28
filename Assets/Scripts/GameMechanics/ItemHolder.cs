@@ -5,6 +5,11 @@ using System;
 
 public class ItemHolder : InventoryItem
 {
+    public enum HolderType
+    {
+        Vest, Bag, Backpack, Container
+    }
+
     public int capacity;
     public InventoryItem[] items;
     

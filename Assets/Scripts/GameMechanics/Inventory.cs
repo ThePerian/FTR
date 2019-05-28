@@ -9,19 +9,19 @@ public class Inventory
     InventoryItem helmet;
     InventoryItem mask;
     InventoryItem flashlight;
-    InventoryItem body;
-    InventoryItem primaryWeapon;
-    InventoryItem secondaryWeapon;
-    InventoryItem vest;
-    InventoryItem bag;
-    InventoryItem backpack;
+    Suit body;
+    Weapon primaryWeapon;
+    Weapon secondaryWeapon;
+    ItemHolder vest;
+    ItemHolder bag;
+    ItemHolder backpack;
     InventoryItem leftBelt;
     InventoryItem rightBelt;
     InventoryItem leftPocket;
     InventoryItem rightPocket;
     InventoryItem detector;
     InventoryItem knife;
-    InventoryItem container;
+    ItemHolder container;
     int boltCount;
     ItemHolder tempBag;
 
