@@ -9,7 +9,7 @@ public class InventoryItem
         Helmet,
         Mask,
         Flashlight,
-        Body,
+        Suit,
         PrimaryWeapon,
         SecondaryWeapon,
         Knife,
